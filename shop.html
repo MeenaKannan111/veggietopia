@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Simple CSS for demonstration */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
+        header {
+            background-color: #3a8e3a;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        #product-list {
+            margin-top: 20px;
+        }
+        .product-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            width: calc(33% - 40px);
+            vertical-align: top;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .product-item img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Farmers Direct</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+        </nav>
+    </header>
+
+    <section id="product-list">
+        <h2>Shop Fresh Products</h2>
+        <div id="products"></div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Farmers Direct. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        const products = {
+            vegetables: [
+                { name: 'Organic Tomatoes', price: '$3/kg', img: 'images/tomatoes.jpg' },
+                { name: 'Fresh Carrots', price: '$2/kg', img: 'images/carrots.jpg' },
+                { name: 'Lettuce', price: '$1.5/head', img: 'images/lettuce.jpg' },
+                { name: 'Cucumbers', price: '$1.2/kg', img: 'images/cucumbers.jpg' },
+                { name: 'Bell Peppers', price: '$2.5/kg', img: 'images/bell_peppers.jpg' },
+                { name: 'Spinach', price: '$2.0/bunch', img: 'images/spinach.jpg' },
+            ],
+            grains: [
+                { name: 'Brown Rice', price: '$1.5/kg', img: 'images/rice.jpg' },
+                { name: 'Quinoa', price: '$4/kg', img: 'images/quinoa.jpg' },
+                { name: 'Oats', price: '$2.5/kg', img: 'images/oats.jpg' },
+                { name: 'Barley', price: '$2/kg', img: 'images/barley.jpg' },
+                { name: 'Whole Wheat Flour', price: '$1.8/kg', img: 'images/wheat_flour.jpg' },
+                { name: 'Cornmeal', price: '$2.2/kg', img: 'images/cornmeal.jpg' },
+            ],
+            other: [
+                { name: 'Farm Fresh Eggs', price: '$2/dozen', img: 'images/eggs.jpg' },
+                { name: 'Organic Honey', price: '$7/jar', img: 'images/honey.jpg' },
+                { name: 'Milk', price: '$1.5/liter', img: 'images/milk.jpg' },
+                { name: 'Greek Yogurt', price: '$3.5/container', img: 'images/yogurt.jpg' },
+                { name: 'Cheddar Cheese', price: '$5.0/200g', img: 'images/cheddar.jpg' },
+                { name: 'Butter', price: '$4.0/250g', img: 'images/butter.jpg' },
+                { name: 'Almonds', price: '$8.0/200g', img: 'images/almonds.jpg' },
+                { name: 'Peanut Butter', price: '$3.0/jar', img: 'images/peanut_butter.jpg' },
+            ]
+        };
+
+        function displayProducts(category) {
+            const productList = document.getElementById('products');
+            productList.innerHTML = '';
+
+            const selectedProducts = products[category] || [];
+            selectedProducts.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.classList.add('product-item');
+                productDiv.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.price}</p>
+                    <button onclick="addToCart('${product.name}', '${product.price}')">Add to Cart</button>
+                `;
+                productList.appendChild(productDiv);
+            });
+        }
+
+        function addToCart(productName, productPrice) {
+            const contactPageUrl = `contact.html?product=${encodeURIComponent(productName)}&price=${encodeURIComponent(productPrice)}`;
+            window.location.href = contactPageUrl;
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const category = params.get('category') || 'vegetables'; // Default to 'vegetables'
+        displayProducts(category);
+    </script>
+</body>
+</html>
