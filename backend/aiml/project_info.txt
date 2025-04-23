@@ -1,0 +1,51 @@
+Here’s your **updated project description** incorporating user login, registration, product ordering, and farmer features:  
+
+---
+
+ **Project Name: Veggietopia**  
+
+**Description:**  
+Veggietopia is an AI-powered platform designed to support plant-based living through vegan recipes, nutritional insights, and sustainable food alternatives. In addition to providing meal planning assistance and an AI chatbot for answering queries about plant-based diets, Veggietopia now includes an **e-commerce marketplace** where users can order plant-based products directly from farmers.  
+
+ **Features:**  
+1. **User Authentication** – Users can **register, log in, and manage their accounts** securely.  
+2. **Recipe Finder** – Search for plant-based recipes based on ingredients, diet preferences, and health goals.  
+3. **Nutritional Insights** – Get detailed nutritional breakdowns of meals and recommendations for balanced diets.  
+4. **Sustainability Guide** – Learn how plant-based eating benefits the environment.  
+5. **AI Chatbot** – Ask questions about vegan diets, health benefits, cooking tips, and more.  
+6. **E-commerce Marketplace** – Users can browse and **order plant-based products** directly from farmers.  
+7. **Farmer Dashboard** – Farmers can **list and manage their products**, track sales, and see placed orders.  
+8. **Order Management** – Users can view their orders, and farmers can track incoming orders.  
+9. **Cash on Delivery Only** – The platform currently supports **only cash on delivery (COD)** payments.  
+10. **Community Forum** – Users can discuss plant-based living, share recipes, and connect with others.  
+
+ **Target Audience:**  
+- Health-conscious individuals  
+- Vegans & vegetarians  
+- People transitioning to a plant-based diet  
+- Environmentalists seeking sustainable food options  
+- Farmers looking to sell organic, plant-based products  
+
+FAQs: 
+Q: What is Veggietopia?
+A: Veggietopia is an AI-powered platform offering plant-based recipes, nutritional guidance, sustainability insights, and an online marketplace for plant-based products.  
+
+Q: How does the AI chatbot work?  
+A: The chatbot processes your questions using AI and provides answers based on the project’s stored knowledge.  
+
+Q: Can I track my nutrition?
+A: Yes! Users can enter meals and receive a full nutritional breakdown.  
+
+Q: Are all recipes vegan?
+A: Yes, all recipes on Veggietopia are 100% plant-based.  
+
+Q: How does plant-based eating help the environment? 
+A: Plant-based diets reduce carbon emissions, conserve water, and promote ethical food sourcing.  
+
+Q: How can I buy plant-based products?
+A: You can browse the marketplace, add products to your cart, and place an order. Farmers will receive your order and deliver it via **cash on delivery (COD)**.  
+
+Q: How can farmers sell on Veggietopia?
+A: Farmers can **register, list their products, and manage orders** through their dashboard.  
+
+For more information, visit our website or ask the chatbot!  
