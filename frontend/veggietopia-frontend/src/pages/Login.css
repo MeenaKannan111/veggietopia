@@ -1,0 +1,27 @@
+.login-container {
+  color: black !important;
+  background-color: white !important;
+}
+
+.login-container input,
+.login-container select,
+.login-container button {
+  color: black !important;
+  background-color: white !important;
+  border: 1px solid #ccc;
+}
+
+.login-container input::placeholder {
+  color: #666 !important;
+}
+
+.login-container button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  background-color: #45a049;
+}

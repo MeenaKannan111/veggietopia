@@ -49,20 +49,29 @@ export const login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
-        // ✅ Generate JWT token
-        const token = jwt.sign({ id: consumer.id }, 'your_secret_key', { expiresIn: '1h' });
-        console.log("Generated token:", token);
+        // ✅ Generate JWT token with consistent secret
+          const token = jwt.sign({ id: consumer.id }, process.env.JWT_SECRET || 'secretkey', { expiresIn: '1h' });
+               res.json({
+                   token,
+                   user: {
+                       id: consumer.id,
+                       name: consumer.name,
+                       email: consumer.email,
+                       address: consumer.address
+                   }
+               }); 
+                console.log("Generated token:", token);
 
         // ✅ Send token & user details in response
-        res.json({
-            token,
-            user: {
-                id: consumer.id,  
-                name: consumer.name, 
-                email: consumer.email, 
-                address: consumer.address
-            }
-        });
+        // res.json({
+        //     token,
+        //     user: {
+        //         id: consumer.id,  
+        //         name: consumer.name, 
+        //         email: consumer.email, 
+        //         address: consumer.address
+        //     }
+        // });
 
     } catch (error) {
         console.error('Login error:', error);
@@ -85,6 +94,7 @@ export const getDashboard = async (req, res) => {
         return res.status(404).json({ error: "Farmer not found" });
       }
   
+      console.log("Fetched farmer details:", rows[0]);
       res.status(200).json(rows[0]); // Send the farmer details
     } catch (error) {
       console.error("Error fetching farmer details:", error);
@@ -92,21 +102,18 @@ export const getDashboard = async (req, res) => {
     }
   };
 
-export const getProductsByFarmer = (req, res) => {
+export const getProductsByFarmer = async (req, res) => {
     const farmerId = req.params.id;
     const sql = 'SELECT id, name, price, quantity AS stock FROM products WHERE farmer_id = ?';
-    //console.log("Fetched products:", results);
-    
-    db.query(sql, [farmerId], (err, results) => {
-        if (err) {
-            console.error("Error fetching products for farmer:", err);
-            return res.status(500).json({ error: "Failed to fetch products" });
-        }
-       
-       
-        console.log("Fetched products:", results); // Move this inside the callback
+
+    try {
+        const [results] = await db.promise().query(sql, [farmerId]);
+        console.log("Fetched products:", results);
         res.status(200).json(results);
-    });
+    } catch (err) {
+        console.error("Error fetching products for farmer:", err);
+        res.status(500).json({ error: "Failed to fetch products" });
+    }
 };
 
 export const addProduct = (req, res) => {
@@ -133,8 +140,8 @@ export const updateProduct = (req, res) => {
     const { name, price, quantity } = req.body;
     const productId = req.params.id;
 
-    if (!name || !price || !stock) {
-        return res.status(400).json({ error: "All fields (name, price, stock) are required" });
+    if (!name || !price || !quantity) {
+        return res.status(400).json({ error: "All fields (name, price, quantity) are required" });
     }
 
     const sql = 'UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ?';

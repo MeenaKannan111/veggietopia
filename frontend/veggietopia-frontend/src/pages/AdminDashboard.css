@@ -1,0 +1,4 @@
+/* Set font color to black for all text in admin dashboard */
+* {
+  color: black !important;
+}

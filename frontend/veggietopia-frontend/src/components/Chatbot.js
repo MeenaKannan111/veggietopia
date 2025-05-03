@@ -228,6 +228,7 @@ const styles = {
         borderRadius: "5px",
         border: "1px solid #ccc",
         marginRight: "5px",
+        color: "black",
     },
     button: {
         padding: "10px 15px",

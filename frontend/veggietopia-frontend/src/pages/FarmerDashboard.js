@@ -1,396 +1,6 @@
-// // import { useState, useEffect } from "react";
-// // import { useNavigate } from "react-router-dom";
-// // import Chatbot from "../components/Chatbot";
-
-// // const apiUrl = "http://localhost:3000/api";
-
-// // function FarmerDashboard() {
-// //   const [farmer, setFarmer] = useState(null);
-// //   const [products, setProducts] = useState([]);
-// //   const [orders, setOrders] = useState([]);
-// //   const [newProduct, setNewProduct] = useState({ name: "", price: "" });
-// //   const token = localStorage.getItem("token");
-// //   const userId = localStorage.getItem("userId");
-// //   const navigate = useNavigate();
-
-// //   useEffect(() => {
-// //     if (!token || !userId) {
-// //       alert("Not logged in! Redirecting...");
-// //       navigate("/");
-// //       return;
-// //     }
-
-// //     const fetchProfile = async () => {
-// //       try {
-// //         const response = await fetch(`${apiUrl}/farmer/dashboard/${userId}`, {
-// //           method: "GET",
-// //           headers: { Authorization: `Bearer ${token}` },
-// //         });
-
-// //         if (!response.ok) throw new Error("Profile fetch failed");
-// //         const data = await response.json();
-// //         setFarmer(data);
-// //       } catch (error) {
-// //         console.error("Error loading profile:", error);
-// //       }
-// //     };
-
-// //     const fetchProducts = async () => {
-// //       try {
-// //         const response = await fetch(`${apiUrl}/farmer/products/${userId}`);
-// //         const data = await response.json();
-// //         setProducts(data);
-// //       } catch (error) {
-// //         console.error("Error loading products:", error);
-// //       }
-// //     };
-
-// //     const fetchOrders = async () => {
-// //       try {
-// //         const response = await fetch(`${apiUrl}/farmer/orders/${userId}`);
-// //         const data = await response.json();
-// //         setOrders(data);
-// //       } catch (error) {
-// //         console.error("Error loading orders:", error);
-// //       }
-// //     };
-
-// //     fetchProfile();
-// //     fetchProducts();
-// //     fetchOrders();
-// //   }, [navigate, token, userId]);
-
-// //   const handleAddProduct = async (e) => {
-// //     e.preventDefault();
-// //     try {
-// //       const response = await fetch(`${apiUrl}/farmer/add-product`, {
-// //         method: "POST",
-// //         headers: {
-// //           Authorization: `Bearer ${token}`,
-// //           "Content-Type": "application/json",
-// //         },
-// //         body: JSON.stringify({ ...newProduct, farmer_id: userId }),
-// //       });
-
-// //       const data = await response.json();
-// //       alert(data.message);
-// //       setProducts([...products, data.product]);
-// //       setNewProduct({ name: "", price: "" });
-// //     } catch (error) {
-// //       console.error("Error adding product:", error);
-// //       alert("Failed to add product.");
-// //     }
-// //   };
-
-// //   const handleLogout = () => {
-// //     localStorage.removeItem("token");
-// //     localStorage.removeItem("userId");
-// //     navigate("/login");
-// //   };
-
-// //   return (
-// //     <div className="flex h-screen bg-gray-100">
-// //       {/* Sidebar */}
-// //       <div className="w-64 bg-green-700 text-white flex flex-col p-5">
-// //         <h2 className="text-3xl font-bold">Farmer</h2>
-// //         <nav className="mt-5 space-y-4">
-// //           <button onClick={() => navigate("/farmer-profile")} className="block w-full text-left">Profile</button>
-// //           <button onClick={() => navigate("/farmer-orders")} className="block w-full text-left">Orders</button>
-// //           <button onClick={() => navigate("/farmer-add-product")} className="block w-full text-left">Add Product</button>
-// //           <button onClick={() => navigate("/farmer-chatbot")} className="block w-full text-left">Chatbot</button>
-// //           <button onClick={handleLogout} className="block w-full text-left">Logout</button>
-// //         </nav>
-// //       </div>
-
-// //       {/* Main Content */}
-// //       <div className="flex-1 p-5">
-// //         {/* Header */}
-// //         <h1 className="text-3xl font-bold text-green-900">Farmer Dashboard</h1>
-
-// //         {/* Profile Section */}
-// //         <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-// //           <h2 className="text-xl font-bold">My Profile</h2>
-// //           {farmer ? (
-// //             <div>
-// //               <p><strong>Name:</strong> {farmer.name}</p>
-// //               <p><strong>Email:</strong> {farmer.email}</p>
-// //               <p><strong>Farm Name:</strong> {farmer.farm_name}</p>
-// //             </div>
-// //           ) : <p>Loading profile...</p>}
-// //         </section>
-
-// //         {/* Add Product Section */}
-// //         <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-// //           <h2 className="text-xl font-bold">Add Product</h2>
-// //           <form onSubmit={handleAddProduct} className="mt-3">
-// //             <input
-// //               type="text"
-// //               placeholder="Product Name"
-// //               value={newProduct.name}
-// //               onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-// //               className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-// //               required
-// //             />
-// //             <input
-// //               type="number"
-// //               placeholder="Price"
-// //               value={newProduct.price}
-// //               onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-// //               className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-// //               required
-// //             />
-// //             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">Add Product</button>
-// //           </form>
-// //         </section>
-
-// //         {/* Products Section */}
-// //         <section className="mt-5">
-// //           <h2 className="text-xl font-bold">My Products</h2>
-// //           <div className="grid grid-cols-3 gap-4 mt-3">
-// //             {products.length > 0 ? (
-// //               products.map((product) => (
-// //                 <div key={product.id} className="bg-white p-5 rounded-lg shadow-md">
-// //                   <h3 className="text-lg font-bold">{product.name}</h3>
-// //                   <p className="text-gray-600">${product.price}</p>
-// //                 </div>
-// //               ))
-// //             ) : <p>No products added yet.</p>}
-// //           </div>
-// //         </section>
-
-// //         {/* Orders Section */}
-// //         <section className="mt-5">
-// //           <h2 className="text-xl font-bold">Recent Orders</h2>
-// //           <div className="mt-3">
-// //             {orders.length > 0 ? (
-// //               orders.map((order) => (
-// //                 <div key={order.id} className="bg-white p-5 rounded-lg shadow-md mb-2">
-// //                   <p><strong>Product:</strong> {order.product_name}</p>
-// //                   <p><strong>Consumer:</strong> {order.consumer_name}</p>
-// //                   <p><strong>Status:</strong> {order.status}</p>
-// //                 </div>
-// //               ))
-// //             ) : <p>No orders yet.</p>}
-// //           </div>
-// //         </section>
-
-// //         {/* Chatbot */}
-// //         <Chatbot />
-// //       </div>
-// //     </div>
-// //   );
-// // }
-
-// // export default FarmerDashboard;
-
-
-// import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-// import Chatbot from "../components/Chatbot";
-// import axios from "axios";
-
-// const apiUrl = "http://localhost:3000/api";
-// const farmerApiUrl = "http://localhost:3000/api";
-
-// function FarmerDashboard() {
-//   const [farmer, setFarmer] = useState(null);
-//   const [products, setProducts] = useState([]);
-//   const [orders, setOrders] = useState([]);
-//   const [newProduct, setNewProduct] = useState({ name: "", price: "", quantity: "" });
-//   const token = localStorage.getItem("token");
-//   const userId = localStorage.getItem("userId");
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if (!token || !userId) {
-//       alert("Not logged in! Redirecting...");
-//       navigate("/");
-//       return;
-//     }
-
-//     const fetchProfile = async () => {
-//       try {
-//         const response = await fetch(`${apiUrl}/farmer/dashboard/${userId}`, {
-//           method: "GET",
-//           headers: {
-//             Authorization: `Bearer ${token}`,
-//           },
-//         });
-
-//         if (!response.ok) throw new Error("Profile fetch failed");
-//         const data = await response.json();
-//         setFarmer(data);
-//       } catch (error) {
-//         console.error("Error loading profile:", error);
-//       }
-//     };
-
-//     const fetchProducts = async () => {
-//       try {
-//         const response = await axios.get(`${farmerApiUrl}/products`);
-//         console.log("Fetched products:", response.data);
-//         setProducts(response.data);
-//       } catch (error) {
-//         console.error("Error fetching products:", error);
-//       }
-//     };
-
-//     const fetchOrders = async () => {
-//       try {
-//         const response = await axios.get(`${farmerApiUrl}/orders`);
-//         setOrders(response.data);
-//       } catch (error) {
-//         console.error("Error fetching orders:", error);
-//       }
-//     };
-
-//     fetchProfile();
-//     fetchProducts();
-//     fetchOrders();
-//   }, [navigate, token, userId]);
-//   const handleAddProduct = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await axios.post(`${farmerApiUrl}/products`, {
-//       ...newProduct,
-
-//        farmer_id: parseInt(userId)  // <-- Add this line
-//     });
-//       console.log("Product added:", response.data);
-//       alert("Product added successfully!");
-//       setProducts([...products, response.data]);
-//       setNewProduct({ name: "", price: "", quantity: "" });
-//     } catch (error) {
-//       console.error("Error adding product:", error);
-//       alert("Failed to add product.");
-//     }
-//   };
-
-//   const handleLogout = () => {
-//     localStorage.removeItem("token");
-//     localStorage.removeItem("userId");
-//     navigate("/login");
-//   };
-
-//   return (
-//     <div className="flex h-screen bg-gray-100">
-//       {/* Sidebar */}
-//       <div className="w-64 bg-green-700 text-white flex flex-col p-5">
-//         <h2 className="text-3xl font-bold">Farmer</h2>
-//         <nav className="mt-5 space-y-4">
-//           <button onClick={() => navigate("/farmer-profile")} className="block w-full text-left">Profile</button>
-//           <button onClick={() => navigate("/farmer-orders")} className="block w-full text-left">Orders</button>
-//           <button onClick={() => navigate("/farmer-add-product")} className="block w-full text-left">Add Product</button>
-//           <button onClick={() => navigate("/farmer-chatbot")} className="block w-full text-left">Chatbot</button>
-//           <button onClick={handleLogout} className="block w-full text-left">Logout</button>
-//         </nav>
-//       </div>
-
-//       {/* Main Content */}
-//       <div className="flex-1 p-5 overflow-y-auto">
-//         {/* Header */}
-//         <h1 className="text-3xl font-bold text-green-900">Farmer Dashboard</h1>
-
-//         {/* Profile Section */}
-//         <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-//           <h2 className="text-xl font-bold">My Profile</h2>
-//           {farmer ? (
-//             <div>
-//               <p><strong>Name:</strong> {farmer.name}</p>
-//               <p><strong>Email:</strong> {farmer.email}</p>
-//               <p><strong>Farm Name:</strong> {farmer.farm_name}</p>
-//             </div>
-//           ) : <p>Loading profile...</p>}
-//         </section>
-
-//         {/* Add Product Section */}
-//         <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-//           <h2 className="text-xl font-bold">Add Product</h2>
-//           <form onSubmit={handleAddProduct} className="mt-3">
-//             <input
-//               type="text"
-//               placeholder="Product Name"
-//               value={newProduct.name}
-//               onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-//               className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-//               required
-//             />
-//             <input
-//               type="number"
-//               placeholder="Price"
-//               value={newProduct.price}
-//               onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-//               className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-//               required
-//             />
-//             <input
-//               type="number"
-//               placeholder="Quantity"
-//               value={newProduct.quantity}
-//               onChange={(e) => setNewProduct({ ...newProduct, quantity: e.target.value })}
-//               className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-//               required
-//             />
-//             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">Add Product</button>
-//           </form>
-//         </section>
-
-//         {/* Products Section */}
-//         <section className="mt-5">
-//           <h2 className="text-xl font-bold">My Products</h2>
-//           <div className="grid grid-cols-3 gap-4 mt-3">
-//             {products.length > 0 ? (
-//               products.map((product, index) => {
-//                 // Check if the product is valid
-//                 if (product && product.name && product.price && product.quantity) {
-//                   return (
-//                     <div key={product.id || index} className="bg-white p-5 rounded-lg shadow-md">
-//                       <h3 className="text-lg font-bold">{product.name}</h3>
-//                       <p className="text-gray-600">${product.price}</p>
-//                       <p className="text-gray-600">Qty: {product.quantity}</p>
-//                     </div>
-//                   );
-//                 } else {
-//                   return null;
-//                 }
-//               })
-//             ) : (
-//               <p>No products added yet.</p>
-//             )}
-//           </div>
-//         </section>
-
-//         {/* Orders Section */}
-//         <section className="mt-5">
-//           <h2 className="text-xl font-bold">Recent Orders</h2>
-//           <div className="mt-3">
-//             {orders.length > 0 ? (
-//               orders.map((order) => (
-//                 <div key={order.id} className="bg-white p-5 rounded-lg shadow-md mb-2">
-//                   <p><strong>Product:</strong> {order.productName}</p>
-//                   <p><strong>Consumer:</strong> {order.consumerName}</p>
-//                   <p><strong>Status:</strong> {order.status}</p>
-//                 </div>
-//               ))
-//             ) : (
-//               <p>No orders yet.</p>
-//             )}
-//           </div>
-//         </section>
-
-//         {/* Chatbot */}
-//         <Chatbot />
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default FarmerDashboard;
-
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Chatbot from "../components/Chatbot";
-import { useCallback } from "react";
-
+import authFetch from "../utils/apiClient";
 const apiUrl = "http://localhost:3000/api";
 
 function FarmerDashboard() {
@@ -399,300 +9,674 @@ function FarmerDashboard() {
   const [products, setProducts] = useState([]);
   const [newProduct, setNewProduct] = useState({ name: "", price: "", quantity: "" });
   const [editingProductId, setEditingProductId] = useState(null);
-  //const [loading, setLoading] = useState(true);
-  //const [error, setError] = useState(null);
   const [selectedTab, setSelectedTab] = useState("home");
 
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("userId");
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    window.location.href = "/login";
+  };
 
   const fetchProducts = useCallback(async () => {
     try {
-      const response = await fetch(`${apiUrl}/farmer/products/${userId}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await authFetch(`/farmer/products/${userId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch products");
+      }
       const data = await response.json();
-      console.log("Fetched products in dashboard:", data);
       setProducts(data);
     } catch (error) {
-      console.error("Error loading products:", error);
+      console.error("Error fetching products:", error);
+      alert("Failed to fetch products");
     }
-  }, [userId, token]);
+  }, [userId]);
+
+  const fetchFarmer = useCallback(async () => {
+    try {
+      const response = await authFetch(`/farmer/dashboard/${userId}`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch farmer profile");
+      }
+      const data = await response.json();
+      setFarmer(data);
+    } catch (error) {
+      console.error("Error fetching farmer profile:", error);
+      alert("Failed to fetch farmer profile");
+    }
+  }, [userId]);
+
+  const fetchOrders = useCallback(async () => {
+    try {
+      const response = await authFetch(`/farmer/${userId}/orders`);
+      if (!response.ok) {
+        throw new Error("Failed to fetch orders");
+      }
+      const data = await response.json();
+      setOrders(data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+      alert("Failed to fetch orders");
+    }
+  }, [userId]);
 
   useEffect(() => {
-    if (!token || !userId) return;
-
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/farmer/dashboard/${userId}`, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (!response.ok) throw new Error("Profile fetch failed");
-        const data = await response.json();
-
-
-        console.log("Fetched farmer profile:", data);
-        setFarmer(data);
-      } catch (error) {
-        console.error("Error loading profile:", error);
-      }
-    };
-
-    const fetchOrders = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/farmer/orders/${userId}`, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        const data = await response.json();
-        console.log("Fetched products in dashboard:", data);
-        setOrders(data);
-      } catch (error) {
-        console.error("Error loading orders:", error);
-      }
-    };
-    
+    fetchFarmer();
     fetchProducts();
-    fetchProfile();
     fetchOrders();
-  }, [fetchProducts, token, userId]);
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
-  
-  
-  // const handleAddProduct = async () => {
-  //   try {
-  //     const res = await fetch(`${apiUrl}/farmer/products`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       body: JSON.stringify({ ...newProduct, farmer_id: userId })
-  //     });
-  //     const data = await res.json();
-  //     setProducts(prev => [...prev, data]);
-  //     setNewProduct({ name: "", price: "", stock: "" });
-  //   } catch (error) {
-  //     console.error("Error adding product:", error);
-  //   }
-  // };
+  }, [fetchFarmer, fetchProducts, fetchOrders]);
+
+  // Add missing handlers for product management
   const handleAddProduct = async () => {
+    if (!newProduct.name || !newProduct.price || !newProduct.stock) {
+      alert("Please fill all product fields");
+      return;
+    }
     try {
-      const res = await fetch(`${apiUrl}/farmer/products`, {
+      const response = await authFetch(`/farmer/products`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
-              body: JSON.stringify({ ...newProduct, farmer_id: userId, image_url: "/images/default.jpg"}),
+        body: JSON.stringify({
+          name: newProduct.name,
+          price: parseFloat(newProduct.price),
+          stock: parseInt(newProduct.stock, 10),
+          farmer_id: userId
+        })
       });
-  
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`Server error: ${res.status} - ${errorText}`);
+      if (!response.ok) {
+        throw new Error("Failed to add product");
       }
-  
-      
-      alert("Product added successfully!");
-      fetchProducts();
-    const data = await res.json();
-      console.log("Product added:", data);
-      //const data = await res.json();
-      setProducts((prev) => [...prev, data]); // Ensure `data` includes `stock`
       setNewProduct({ name: "", price: "", stock: "" });
- 
-      } catch (error) {
+      fetchProducts();
+    } catch (error) {
       console.error("Error adding product:", error);
+      alert("Failed to add product");
     }
   };
-  
-  
+
   const handleUpdateProduct = async (productId) => {
+    if (!newProduct.name || !newProduct.price || !newProduct.stock) {
+      alert("Please fill all product fields");
+      return;
+    }
     try {
-      await fetch(`${apiUrl}/products/${productId}`, {
+      const response = await authFetch(`/farmer/products/${productId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
         },
-        body: JSON.stringify(newProduct)
+        body: JSON.stringify({
+          name: newProduct.name,
+          price: parseFloat(newProduct.price),
+          stock: parseInt(newProduct.stock, 10)
+        })
       });
-      alert("Product updated successfully!");
-      // Refresh the product list
-      fetchProducts();
+      if (!response.ok) {
+        throw new Error("Failed to update product");
+      }
       setEditingProductId(null);
       setNewProduct({ name: "", price: "", stock: "" });
+      fetchProducts();
     } catch (error) {
       console.error("Error updating product:", error);
       alert("Failed to update product");
     }
   };
-  
+
   const handleDeleteProduct = async (productId) => {
+    if (!window.confirm("Are you sure you want to delete this product?")) return;
     try {
-      await fetch(`${apiUrl}/products/${productId}`, {
+      const response = await authFetch(`/farmer/products/${productId}`, {
         method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` }
       });
-      alert("Product deleted successfully!");
+      if (!response.ok) {
+        throw new Error("Failed to delete product");
+      }
       fetchProducts();
-     } catch (error) {
+    } catch (error) {
       console.error("Error deleting product:", error);
+      alert("Failed to delete product");
     }
   };
-  
- return (
+
+  const handleStatusChange = async (orderId, newStatus) => {
+    try {
+      const response = await authFetch(`/farmer/orders/${orderId}/status`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update order status");
+      }
+      // Update local orders state
+      setOrders(prevOrders =>
+        prevOrders.map(order =>
+          order.id === orderId ? { ...order, status: newStatus } : order
+        )
+      );
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      alert("Failed to update order status");
+    }
+  };
+
+  const validStatuses = ['Pending', 'Confirmed', 'Out for Delivery', 'Cancelled', 'Delivered'];
+
+  return (
     <div className="min-h-screen bg-gradient-to-r from-blue-500 to-green-500 text-gray-800">
-        {/* Navbar */}
-        <nav className="flex justify-between items-center bg-blue-800 text-white p-5">
-            <h2 className="text-2xl font-bold">Farmer Dashboard</h2>
-            <div className="space-x-5">
-                <button onClick={() => setSelectedTab("home")} className="hover:underline">Home</button>
-                <button onClick={() => setSelectedTab("profile")} className="hover:underline">Profile</button>
-                <button onClick={() => setSelectedTab("orders")} className="hover:underline">Orders</button>
-                <button onClick={() => setSelectedTab("chatbot")} className="hover:underline">Chatbot</button>
-                <button onClick={() => setSelectedTab("products")} className="hover:underline">Products</button>
-                <button onClick={handleLogout} className="hover:bg-red-600 bg-red-500 px-3 py-1 rounded">
-                    Logout
-                </button>
-            </div>
-        </nav>
-
-        {/* Main Content */}
-        <div className="p-5">
-            {selectedTab === "home" && (
-                <div>
-                    <h1 className="text-3xl font-bold text-white">Welcome back, {farmer?.name}!</h1>
-                    <p className="text-lg mt-2 text-white">Manage your farm and track your sales!</p>
-                </div>
-            )}
-
-            {selectedTab === "profile" && (
-                <div>
-                    <h2 className="text-2xl font-bold text-white">My Profile</h2>
-                    {farmer ? (
-                        <div className="text-white">
-                            <p><strong>Name:</strong> {farmer.name}</p>
-                            <p><strong>Email:</strong> {farmer.email}</p>
-                            <p><strong>Farm Details:</strong> {farmer.farm_details}</p>
-                            <p><strong>Phone Number:</strong> {farmer.phone_number}</p>
-                        </div>
-                    ) : <p className="text-white">Loading profile...</p>}
-                </div>
-            )}
-
-            {selectedTab === "orders" && (
-                <div>
-                    <h2 className="text-2xl font-bold text-white">Product Orders</h2>
-                    {orders.length > 0 ? (
-                        orders.map(order => (
-                            <div key={order.id} className="border p-3 mt-2 bg-white rounded shadow text-gray-800">
-                                <p><strong>Product:</strong> {order.product_name}</p>
-                                <p><strong>Buyer:</strong> {order.consumer_name}</p>
-                                <p><strong>Quantity:</strong> {order.quantity}</p>
-                                <p><strong>Total:</strong> ₹{order.total_price}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-white">No orders yet.</p>
-                    )}
-                </div>
-            )}
-
-            {selectedTab === "chatbot" && <Chatbot />}
-
-            {selectedTab === "products" && (
-                <div>
-                    <h2 className="text-2xl font-bold text-white mb-4">My Products</h2>
-
-                    {/* Add or Edit Form */}
-                    <div className="bg-white p-4 rounded shadow mb-6 text-gray-800">
-                        <h3 className="font-bold mb-2">{editingProductId ? "Edit Product" : "Add New Product"}</h3>
-                        <input
-                            className="border p-2 mr-2"
-                            placeholder="Name"
-                            value={newProduct.name}
-                            onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
-                        />
-                        <input
-                            className="border p-2 mr-2"
-                            placeholder="Price"
-                            type="number"
-                            value={newProduct.price}
-                            onChange={e => setNewProduct({ ...newProduct, price: e.target.value })}
-                        />
-                        <input
-                            className="border p-2 mr-2"
-                            placeholder="Stock"
-                            type="number"
-                            value={newProduct.stock}
-                            onChange={e => setNewProduct({ ...newProduct, stock: e.target.value })}
-                        />
-                        <button
-                            onClick={() =>
-                                editingProductId
-                                    ? handleUpdateProduct(editingProductId)
-                                    : handleAddProduct()
-                            }
-                            className="bg-green-600 text-white px-4 py-2 rounded"
-                        >
-                            {editingProductId ? "Update" : "Add"}
-                        </button>
-                    </div>
-
-                    {/* Product List */}
-                    {products.length > 0 ? (
-                        products.map((product) => (
-                            <div key={product.id} className="border p-4 mb-2 bg-white rounded shadow flex items-center text-gray-800">
-                                {/* Product Image */}
-                                <img
-                                    src={product.image_url || "/images/default.jpg"}
-                                    alt={product.name}
-                                    className="w-32 h-32 object-contain rounded mr-4"
-                                />
-                                {/* Product Details */}
-                                <div>
-                                    <p><strong>Name:</strong> {product.name}</p>
-                                    <p><strong>Price:</strong> ₹{product.price}</p>
-                                    <p><strong>Stock:</strong> {product.stock}kg</p>
-                                    <div className="mt-2 space-x-2">
-                                        <button
-                                            onClick={() => {
-                                                setEditingProductId(product.id);
-                                                setNewProduct({
-                                                    name: product.name,
-                                                    price: product.price,
-                                                    stock: product.stock,
-                                                });
-                                            }}
-                                            className="bg-yellow-500 text-white px-2 py-1 rounded"
-                                        >
-                                            Edit
-                                        </button>
-                                        <button
-                                            onClick={() => handleDeleteProduct(product.id)}
-                                            className="bg-red-500 text-white px-2 py-1 rounded"
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="text-center text-white">No products available. Add some products!</p>
-                    )}
-                </div>
-            )}
+      {/* Navbar */}
+      <nav className="flex justify-between items-center bg-blue-800 text-white p-5">
+        <h2 className="text-2xl font-bold">Farmer Dashboard</h2>
+        <div className="space-x-5">
+          <button onClick={() => setSelectedTab("home")} className="hover:underline">Home</button>
+          <button onClick={() => setSelectedTab("profile")} className="hover:underline">Profile</button>
+          <button onClick={() => setSelectedTab("orders")} className="hover:underline">Orders</button>
+          <button onClick={() => setSelectedTab("chatbot")} className="hover:underline">Chatbot</button>
+          <button onClick={() => setSelectedTab("products")} className="hover:underline">Products</button>
+          <button onClick={handleLogout} className="hover:bg-red-600 bg-red-500 px-3 py-1 rounded">
+            Logout
+          </button>
         </div>
+      </nav>
+
+      {/* Main Content */}
+      <div className="p-5">
+        {selectedTab === "home" && (
+          <div>
+            <h1 className="text-3xl font-bold text-white">Welcome back, {farmer?.name}!</h1>
+            <p className="text-lg mt-2 text-white">Manage your farm and track your sales!</p>
+          </div>
+        )}
+
+        {selectedTab === "profile" && (
+          <div>
+            <h2 className="text-2xl font-bold text-white">My Profile</h2>
+            {farmer ? (
+              <div className="text-white">
+                <p><strong>Name:</strong> {farmer.name}</p>
+                <p><strong>Email:</strong> {farmer.email}</p>
+                <p><strong>Farm Details:</strong> {farmer.farm_details}</p>
+                <p><strong>Phone Number:</strong> {farmer.phone_number}</p>
+              </div>
+            ) : <p className="text-white">Loading profile...</p>}
+          </div>
+        )}
+
+        {selectedTab === "orders" && (
+          <div>
+            <h2 className="text-2xl font-bold text-white">Product Orders</h2>
+            {orders.length > 0 ? (
+              orders.map(order => (
+                <div key={order.id} className="border p-3 mt-2 bg-white rounded shadow text-gray-800">
+                  <p><strong>Product:</strong> {order.product_name}</p>
+                  <p><strong>Buyer:</strong> {order.consumer_name}</p>
+                  <p><strong>Quantity:</strong> {order.quantity}</p>
+                  <p><strong>Total:</strong> ₹{order.total_price}</p>
+                  <label className="block mt-2">
+                    <span className="text-gray-700 font-semibold">Status:</span>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                      className="mt-1 block w-full rounded border-gray-300"
+                    >
+                      {validStatuses.map(status => (
+                        <option key={status} value={status}>{status}</option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+              ))
+            ) : (
+              <p className="text-white">No orders yet.</p>
+            )}
+          </div>
+        )}
+
+        {selectedTab === "chatbot" && <Chatbot />}
+
+        {selectedTab === "products" && (
+          <div>
+            <h2 className="text-2xl font-bold text-white mb-4">My Products</h2>
+
+            {/* Add or Edit Form */}
+            <div className="bg-white p-4 rounded shadow mb-6 text-gray-800">
+              <h3 className="font-bold mb-2">{editingProductId ? "Edit Product" : "Add New Product"}</h3>
+              <input
+                className="border p-2 mr-2"
+                placeholder="Name"
+                value={newProduct.name}
+                onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
+              />
+              <input
+                className="border p-2 mr-2"
+                placeholder="Price"
+                type="number"
+                value={newProduct.price}
+                onChange={e => setNewProduct({ ...newProduct, price: e.target.value })}
+              />
+              <input
+                className="border p-2 mr-2"
+                placeholder="Stock"
+                type="number"
+                value={newProduct.stock}
+                onChange={e => setNewProduct({ ...newProduct, stock: e.target.value })}
+              />
+              <button
+                onClick={() =>
+                  editingProductId
+                    ? handleUpdateProduct(editingProductId)
+                    : handleAddProduct()
+                }
+                className="bg-green-600 text-white px-4 py-2 rounded"
+              >
+                {editingProductId ? "Update" : "Add"}
+              </button>
+            </div>
+
+            {/* Product List */}
+            {products.length > 0 ? (
+              products.map((product) => (
+                <div key={product.id} className="border p-4 mb-2 bg-white rounded shadow flex items-center text-gray-800">
+                  {/* Product Image */}
+                  <img
+                    src={product.image_url || "/images/default.jpg"}
+                    alt={product.name}
+                    className="w-32 h-32 object-contain rounded mr-4"
+                  />
+                  {/* Product Details */}
+                  <div>
+                    <p><strong>Name:</strong> {product.name}</p>
+                    <p><strong>Price:</strong> ₹{product.price}</p>
+                    <p><strong>Stock:</strong> {product.stock}kg</p>
+                    <div className="mt-2 space-x-2">
+                      <button
+                        onClick={() => {
+                          setEditingProductId(product.id);
+                          setNewProduct({
+                            name: product.name,
+                            price: product.price,
+                            stock: product.stock,
+                          });
+                        }}
+                        className="bg-yellow-500 text-white px-2 py-1 rounded"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteProduct(product.id)}
+                        className="bg-red-500 text-white px-2 py-1 rounded"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-white">No products available. Add some products!</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
-);
+  );
 }
 
 export default FarmerDashboard;
+// import { useEffect, useState, useCallback } from "react";
+// import Chatbot from "../components/Chatbot";
+
+// const apiUrl = "http://localhost:3000/api";
+
+// function FarmerDashboard() {
+//   const [farmer, setFarmer] = useState(null);
+//   const [orders, setOrders] = useState([]);
+//   const [products, setProducts] = useState([]);
+//   const [newProduct, setNewProduct] = useState({ name: "", price: "", quantity: "" });
+//   const [editingProductId, setEditingProductId] = useState(null);
+//   const [selectedTab, setSelectedTab] = useState("home");
+
+//   const token = localStorage.getItem("token");
+//   const userId = localStorage.getItem("userId");
+
+//   const handleLogout = () => {
+//     localStorage.removeItem("token");
+//     localStorage.removeItem("userId");
+//     window.location.href = "/login";
+//   };
+
+//   const fetchProducts = async () => {
+//     try {
+//       const response = await fetch(`${apiUrl}/farmer/products?farmer_id=${userId}`, {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to fetch products");
+//       }
+//       const data = await response.json();
+//       setProducts(data);
+//     } catch (error) {
+//       console.error("Error fetching products:", error);
+//       alert("Failed to fetch products");
+//     }
+//   };
+
+//   const fetchFarmer = async () => {
+//     try {
+//       const response = await fetch(`${apiUrl}/farmer/${userId}`, {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to fetch farmer profile");
+//       }
+//       const data = await response.json();
+//       setFarmer(data);
+//     } catch (error) {
+//       console.error("Error fetching farmer profile:", error);
+//       alert("Failed to fetch farmer profile");
+//     }
+//   };
+
+//   const fetchOrders = async () => {
+//     try {
+//       const response = await fetch(`${apiUrl}/farmer/${userId}/orders`, {
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to fetch orders");
+//       }
+//       const data = await response.json();
+//       setOrders(data);
+//     } catch (error) {
+//       console.error("Error fetching orders:", error);
+//       alert("Failed to fetch orders");
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchFarmer();
+//     fetchProducts();
+//     fetchOrders();
+//   }, []);
+
+//   // Add missing handlers for product management
+//   const handleAddProduct = async () => {
+//     if (!newProduct.name || !newProduct.price || !newProduct.stock) {
+//       alert("Please fill all product fields");
+//       return;
+//     }
+//     try {
+//       const response = await fetch(`${apiUrl}/farmer/products`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`
+//         },
+//         body: JSON.stringify({
+//           name: newProduct.name,
+//           price: parseFloat(newProduct.price),
+//           stock: parseInt(newProduct.stock, 10),
+//           farmer_id: userId
+//         })
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to add product");
+//       }
+//       setNewProduct({ name: "", price: "", stock: "" });
+//       fetchProducts();
+//     } catch (error) {
+//       console.error("Error adding product:", error);
+//       alert("Failed to add product");
+//     }
+//   };
+
+//   const handleUpdateProduct = async (productId) => {
+//     if (!newProduct.name || !newProduct.price || !newProduct.stock) {
+//       alert("Please fill all product fields");
+//       return;
+//     }
+//     try {
+//       const response = await fetch(`${apiUrl}/farmer/products/${productId}`, {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`
+//         },
+//         body: JSON.stringify({
+//           name: newProduct.name,
+//           price: parseFloat(newProduct.price),
+//           stock: parseInt(newProduct.stock, 10)
+//         })
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to update product");
+//       }
+//       setEditingProductId(null);
+//       setNewProduct({ name: "", price: "", stock: "" });
+//       fetchProducts();
+//     } catch (error) {
+//       console.error("Error updating product:", error);
+//       alert("Failed to update product");
+//     }
+//   };
+
+//   const handleDeleteProduct = async (productId) => {
+//     if (!window.confirm("Are you sure you want to delete this product?")) return;
+//     try {
+//       const response = await fetch(`${apiUrl}/farmer/products/${productId}`, {
+//         method: "DELETE",
+//         headers: {
+//           Authorization: `Bearer ${token}`
+//         }
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to delete product");
+//       }
+//       fetchProducts();
+//     } catch (error) {
+//       console.error("Error deleting product:", error);
+//       alert("Failed to delete product");
+//     }
+//   };
+
+//   const handleStatusChange = async (orderId, newStatus) => {
+//     try {
+//       const response = await fetch(`${apiUrl}/orders/${orderId}/status`, {
+//         method: "PUT",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`
+//         },
+//         body: JSON.stringify({ status: newStatus })
+//       });
+//       if (!response.ok) {
+//         throw new Error("Failed to update order status");
+//       }
+//       // Update local orders state
+//       setOrders(prevOrders =>
+//         prevOrders.map(order =>
+//           order.id === orderId ? { ...order, status: newStatus } : order
+//         )
+//       );
+//     } catch (error) {
+//       console.error("Error updating order status:", error);
+//       alert("Failed to update order status");
+//     }
+//   };
+
+//   const validStatuses = ['Pending', 'Confirmed', 'Out for Delivery', 'Cancelled', 'Delivered'];
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-r from-blue-500 to-green-500 text-gray-800">
+//       {/* Navbar */}
+//       <nav className="flex justify-between items-center bg-blue-800 text-white p-5">
+//         <h2 className="text-2xl font-bold">Farmer Dashboard</h2>
+//         <div className="space-x-5">
+//           <button onClick={() => setSelectedTab("home")} className="hover:underline">Home</button>
+//           <button onClick={() => setSelectedTab("profile")} className="hover:underline">Profile</button>
+//           <button onClick={() => setSelectedTab("orders")} className="hover:underline">Orders</button>
+//           <button onClick={() => setSelectedTab("chatbot")} className="hover:underline">Chatbot</button>
+//           <button onClick={() => setSelectedTab("products")} className="hover:underline">Products</button>
+//           <button onClick={handleLogout} className="hover:bg-red-600 bg-red-500 px-3 py-1 rounded">
+//             Logout
+//           </button>
+//         </div>
+//       </nav>
+
+//       {/* Main Content */}
+//       <div className="p-5">
+//         {selectedTab === "home" && (
+//           <div>
+//             <h1 className="text-3xl font-bold text-white">Welcome back, {farmer?.name}!</h1>
+//             <p className="text-lg mt-2 text-white">Manage your farm and track your sales!</p>
+//           </div>
+//         )}
+
+//         {selectedTab === "profile" && (
+//           <div>
+//             <h2 className="text-2xl font-bold text-white">My Profile</h2>
+//             {farmer ? (
+//               <div className="text-white">
+//                 <p><strong>Name:</strong> {farmer.name}</p>
+//                 <p><strong>Email:</strong> {farmer.email}</p>
+//                 <p><strong>Farm Details:</strong> {farmer.farm_details}</p>
+//                 <p><strong>Phone Number:</strong> {farmer.phone_number}</p>
+//               </div>
+//             ) : <p className="text-white">Loading profile...</p>}
+//           </div>
+//         )}
+
+//         {selectedTab === "orders" && (
+//           <div>
+//             <h2 className="text-2xl font-bold text-white">Product Orders</h2>
+//             {orders.length > 0 ? (
+//               orders.map(order => (
+//                 <div key={order.id} className="border p-3 mt-2 bg-white rounded shadow text-gray-800">
+//                   <p><strong>Product:</strong> {order.product_name}</p>
+//                   <p><strong>Buyer:</strong> {order.consumer_name}</p>
+//                   <p><strong>Quantity:</strong> {order.quantity}</p>
+//                   <p><strong>Total:</strong> ₹{order.total_price}</p>
+//                   <label className="block mt-2">
+//                     <span className="text-gray-700 font-semibold">Status:</span>
+//                     <select
+//                       value={order.status}
+//                       onChange={(e) => handleStatusChange(order.id, e.target.value)}
+//                       className="mt-1 block w-full rounded border-gray-300"
+//                     >
+//                       {validStatuses.map(status => (
+//                         <option key={status} value={status}>{status}</option>
+//                       ))}
+//                     </select>
+//                   </label>
+//                 </div>
+//               ))
+//             ) : (
+//               <p className="text-white">No orders yet.</p>
+//             )}
+//           </div>
+//         )}
+
+//         {selectedTab === "chatbot" && <Chatbot />}
+
+//         {selectedTab === "products" && (
+//           <div>
+//             <h2 className="text-2xl font-bold text-white mb-4">My Products</h2>
+
+//             {/* Add or Edit Form */}
+//             <div className="bg-white p-4 rounded shadow mb-6 text-gray-800">
+//               <h3 className="font-bold mb-2">{editingProductId ? "Edit Product" : "Add New Product"}</h3>
+//               <input
+//                 className="border p-2 mr-2"
+//                 placeholder="Name"
+//                 value={newProduct.name}
+//                 onChange={e => setNewProduct({ ...newProduct, name: e.target.value })}
+//               />
+//               <input
+//                 className="border p-2 mr-2"
+//                 placeholder="Price"
+//                 type="number"
+//                 value={newProduct.price}
+//                 onChange={e => setNewProduct({ ...newProduct, price: e.target.value })}
+//               />
+//               <input
+//                 className="border p-2 mr-2"
+//                 placeholder="Stock"
+//                 type="number"
+//                 value={newProduct.stock}
+//                 onChange={e => setNewProduct({ ...newProduct, stock: e.target.value })}
+//               />
+//               <button
+//                 onClick={() =>
+//                   editingProductId
+//                     ? handleUpdateProduct(editingProductId)
+//                     : handleAddProduct()
+//                 }
+//                 className="bg-green-600 text-white px-4 py-2 rounded"
+//               >
+//                 {editingProductId ? "Update" : "Add"}
+//               </button>
+//             </div>
+
+//             {/* Product List */}
+//             {products.length > 0 ? (
+//               products.map((product) => (
+//                 <div key={product.id} className="border p-4 mb-2 bg-white rounded shadow flex items-center text-gray-800">
+//                   {/* Product Image */}
+//                   <img
+//                     src={product.image_url || "/images/default.jpg"}
+//                     alt={product.name}
+//                     className="w-32 h-32 object-contain rounded mr-4"
+//                   />
+//                   {/* Product Details */}
+//                   <div>
+//                     <p><strong>Name:</strong> {product.name}</p>
+//                     <p><strong>Price:</strong> ₹{product.price}</p>
+//                     <p><strong>Stock:</strong> {product.stock}kg</p>
+//                     <div className="mt-2 space-x-2">
+//                       <button
+//                         onClick={() => {
+//                           setEditingProductId(product.id);
+//                           setNewProduct({
+//                             name: product.name,
+//                             price: product.price,
+//                             stock: product.stock,
+//                           });
+//                         }}
+//                         className="bg-yellow-500 text-white px-2 py-1 rounded"
+//                       >
+//                         Edit
+//                       </button>
+//                       <button
+//                         onClick={() => handleDeleteProduct(product.id)}
+//                         className="bg-red-500 text-white px-2 py-1 rounded"
+//                       >
+//                         Delete
+//                       </button>
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))
+//             ) : (
+//               <p className="text-center text-white">No products available. Add some products!</p>
+//             )}
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default FarmerDashboard;

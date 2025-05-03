@@ -1,13 +1,24 @@
-const express = require('express');
-const mysql = require('mysql2');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
+import express from 'express';
+import mysql from 'mysql2';
+import bodyParser from 'body-parser';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import cors from 'cors';
+
+import recommendationRoutes from './backend/routes/recommendationRoutes.js';
+import consumerRoutes from './backend/routes/consumerRoutes.js';
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+// Global request logger middleware
+app.use((req, res, next) => {
+    console.log(`Incoming request: ${req.method} ${req.url}`);
+    next();
+});
+
+app.use('/api', consumerRoutes);  // Register consumer routes
 
 // Create a connection to the database
 const db = mysql.createConnection({
@@ -34,7 +45,7 @@ app.post('/api/register', (req, res) => {
         if (err) {
             return res.status(500).send('Error registering user');
         }
-        res.status(201).send('User  registered');
+        res.status(201).send('User registered');
     });
 });
 
@@ -90,7 +101,8 @@ app.post('/api/products', (req, res) => {
 
 // Middleware to authenticate user
 const authenticateJWT = (req, res, next) => {
-    const token = req.headers['authorization'];
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
     if (token) {
         jwt.verify(token, 'your_jwt_secret', (err, user) => {
             if (err) {
@@ -105,18 +117,9 @@ const authenticateJWT = (req, res, next) => {
     }
 };
 
-// Protect routes with authentication
-app.use(authenticateJWT);
 
-// Get user orders
-app.get('/api/orders', (req, res) => {
-    db.query('SELECT * FROM orders WHERE user_id = ?', [req.userId], (err, results) => {
-        if (err) {
-            return res.status(500).send('Error fetching orders');
-        }
-        res.json(results);
-    });
-});
+// Use recommendation routes
+app.use('/recommendations', recommendationRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
