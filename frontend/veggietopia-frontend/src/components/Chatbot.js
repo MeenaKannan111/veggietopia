@@ -228,7 +228,10 @@ const styles = {
         borderRadius: "5px",
         border: "1px solid #ccc",
         marginRight: "5px",
+<<<<<<< HEAD
         color: "black",
+=======
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     },
     button: {
         padding: "10px 15px",

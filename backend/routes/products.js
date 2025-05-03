@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // //const db = require("../config/db"); // or wherever you keep your DB connection
 // import db  from '../config/db.js'; // ✅ Correct import
 // import express from 'express';
@@ -85,6 +86,21 @@
 //     );
 
 //     console.log(`Fetched products for farmer ${farmerId}:`, products);
+=======
+//const db = require("../config/db"); // or wherever you keep your DB connection
+import db  from '../config/db.js'; // ✅ Correct import
+import express from 'express';
+//const express = require("express");
+const router = express.Router();
+//const verifyToken = require("../../middleware/verifyToken");
+
+// ✅ GET all products by farmer I
+
+// router.get("/:farmerId", async (req, res) => {
+//   const { farmerId } = req.params;
+//   try {
+//     const [products] = await db.query("SELECT * FROM products WHERE farmer_id = ?", [farmerId]);
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 //     res.json(products);
 //   } catch (err) {
 //     console.error("Error fetching products:", err);
@@ -92,6 +108,7 @@
 //   }
 // });
 
+<<<<<<< HEAD
 // router.get("/recommendations/:userId", async (req, res) => {
 //   const { userId } = req.params;
 
@@ -257,6 +274,33 @@ const router = express.Router();
 
 // GET single product details
 router.get("/product/:productId", async (req, res) => {
+=======
+// router.get("/", async (req, res) => {
+//   const search = req.query.search || "";
+//   try {
+//     let query = "SELECT products.*, farmers.name AS farmer_name FROM products JOIN farmers ON products.farmer_id = farmers.id";
+//     let params = [];
+
+//     if (search) {
+//       query += " WHERE products.name LIKE ?";
+//       params.push(`%${search}%`);
+//     }
+
+//     // Use the promise version if needed (or simply `db.promise().query()`)
+//     const [products] = await db.promise().query(query, params);
+//     console.log(`Fetched products for id `, products);
+//     //     res.json(products);
+//     res.json(products);
+//   } catch (error) {
+//     console.error("Error fetching products for search/view:", error);
+//     res.status(500).json({ error: "Failed to fetch products" });
+//   }
+// });
+
+
+
+router.get("/:productId", async (req, res) => {
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
   const { productId } = req.params;
   try {
        const [product] = await db.promise().query(
@@ -265,6 +309,7 @@ router.get("/product/:productId", async (req, res) => {
               farmers.name AS farmer_name, 
               farmers.phone_number AS farmer_contact, 
               farmers.farm_location 
+<<<<<<< HEAD
            FROM products 
            JOIN farmers ON products.farmer_id = farmers.id 
            WHERE products.id = ?`,
@@ -274,15 +319,38 @@ router.get("/product/:productId", async (req, res) => {
           return res.status(404).json({ error: "Product not found" });
       }
       res.json(product[0]);
+=======
+           FROM 
+              products 
+           JOIN 
+              farmers 
+           ON 
+              products.farmer_id = farmers.id 
+           WHERE 
+              products.id = ?`,
+          [productId]
+      );
+
+      if (product.length === 0) {
+          return res.status(404).json({ error: "Product not found" });
+      }
+
+      res.json(product[0]); // Include image_url in the response
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
   } catch (error) {
       console.error("Error fetching product:", error);
       res.status(500).json({ error: "Failed to fetch product" });
   }
 });
 
+<<<<<<< HEAD
 // GET products by farmer id
 router.get("/farmer-products/:farmerId", async (req, res) => {
   const farmerId = parseInt(req.params.farmerId, 10);
+=======
+router.get("/:farmerId", async (req, res) => {
+  const farmerId = parseInt(req.params.farmerId, 10); // Make sure it's an integer
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
   if (isNaN(farmerId)) {
     return res.status(400).json({ error: "Invalid farmer ID" });
   }
@@ -291,6 +359,10 @@ router.get("/farmer-products/:farmerId", async (req, res) => {
       "SELECT id, name, price, stock, image_url FROM products WHERE farmer_id = ?",
       [farmerId]
     );
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     console.log(`Fetched products for farmer ${farmerId}:`, products);
     res.json(products);
   } catch (err) {
@@ -299,12 +371,21 @@ router.get("/farmer-products/:farmerId", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // GET recommendations for user
 router.get("/recommendations/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
       // Replace with your actual recommendation logic
       const recommendations = await getRecommendationsForUser(userId);
+=======
+router.get("/recommendations/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+      // Fetch recommendations from the ML model or database
+      const recommendations = await getRecommendationsForUser(userId); // Replace with your logic
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
       res.json(recommendations);
   } catch (error) {
       console.error("Error fetching recommendations:", error);
@@ -312,7 +393,25 @@ router.get("/recommendations/:userId", async (req, res) => {
   }
 });
 
+<<<<<<< HEAD
 // GET all products with optional search query
+=======
+// ✅ ADD a new product
+// router.post("/", verifyToken, async (req, res) => {
+//   const { name, price, stock, farmer_id } = req.body;
+//   try {
+//     const [result] = await db.query(
+//       "INSERT INTO products (name, price, stock, farmer_id) VALUES (?, ?, ?, ?)",
+//       [name, price, stock, farmer_id]
+//     );
+//     const [newProduct] = await db.query("SELECT * FROM products WHERE id = ?", [result.insertId]);
+//     res.status(201).json(newProduct[0]);
+//   } catch (err) {
+//     console.error("Error adding product:", err);
+//     res.status(500).json({ error: "Failed to add product" });
+//   }
+// });
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 router.get("/", async (req, res) => {
   console.log("GET /products route hit");
    
@@ -344,15 +443,24 @@ router.get("/", async (req, res) => {
       }
 
       const [products] = await db.promise().query(query, params);
+<<<<<<< HEAD
       console.log("Fetched products:", products);
       res.json(products);
+=======
+      console.log("Fetched products:", products); // Debugging log
+      res.json(products);
+
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
   } catch (error) {
       console.error("Error fetching products:", error);
       res.status(500).json({ error: "Failed to fetch products" });
   }
 });
 
+<<<<<<< HEAD
 // ADD a new product
+=======
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 router.post("/", async (req, res) => {
     try {
       const { name, price, stock, farmer_id } = req.body;
@@ -372,9 +480,14 @@ router.post("/", async (req, res) => {
       console.error("Add product error:", error);
       res.status(500).json({ error: "Failed to add product" });
     }
+<<<<<<< HEAD
 });
 
 // UPDATE a product
+=======
+  });
+// ✅ UPDATE a product
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 router.put("/:productId", async (req, res) => {
   const { productId } = req.params;
   const { name, price, quantity } = req.body;
@@ -385,30 +498,81 @@ router.put("/:productId", async (req, res) => {
   const sql = "UPDATE products SET name = ?, price = ?, quantity = ? WHERE id = ?";
 
   try {
+<<<<<<< HEAD
+=======
+    // Perform the update
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     const [result] = await db.promise().query(sql, [name, price, quantity, productId]);
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Product not found" });
     }
 
+<<<<<<< HEAD
     const [updatedProduct] = await db.promise().query("SELECT * FROM products WHERE id = ?", [productId]);
     res.status(200).json(updatedProduct[0]);
+=======
+    // Fetch the updated product
+    const [updatedProduct] = await db.promise().query("SELECT * FROM products WHERE id = ?", [productId]);
+
+    res.status(200).json(updatedProduct[0]); // Return the updated product
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
   } catch (err) {
     console.error("Error updating product:", err);
     res.status(500).json({ error: "Failed to update product" });
   }
 });
+<<<<<<< HEAD
 
 // DELETE a product
+=======
+// ✅ DELETE a product
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 router.delete("/:productId", async (req, res) => {
   const { productId } = req.params;
   try {
     await db.promise().query("DELETE FROM products WHERE id = ?", [productId]);
     res.json({ message: "Product deleted" });
   } catch (err) {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     console.error("Error deleting product:", err);
     res.status(500).json({ error: "Failed to delete product" });
   }
 });
 
+<<<<<<< HEAD
 export default router;
+=======
+// ✅ View all products (for consumers/search) with optional search query
+// router.get("/", async (req, res) => {
+//   const search = req.query.search || "";
+
+//   try {
+//     let query = "SELECT * FROM products";
+//     let params = [];
+
+//     if (search) {
+//       query += " WHERE name LIKE ?";
+//       params.push(`%${search}%`);
+//     }
+
+//     const [products] = await db.query(query, params);
+//     res.json(products);
+//   } catch (error) {
+//     console.error("Error fetching products for search/view:", error);
+//     res.status(500).json({ error: "Failed to fetch products" });
+//   }
+// });
+
+
+// module.exports = router;
+// In backend/routes/products.js
+
+// View all products (for consumers/search) with optional search query
+
+
+export default router;
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5

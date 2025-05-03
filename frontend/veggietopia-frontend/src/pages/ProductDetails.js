@@ -1,7 +1,201 @@
+<<<<<<< HEAD
  import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import incrementInteraction from "../utils/incrementInteraction";
 import authFetch from "../utils/apiClient";
+=======
+// // import { useState, useEffect } from "react";
+// // import { useParams } from "react-router-dom";
+
+// // const apiUrl = "http://localhost:3000/api";
+
+// // function ProductDetails() {
+// //     const { productId } = useParams(); // Get the product ID from the URL
+// //     const [product, setProduct] = useState(null);
+// //     const [error, setError] = useState(null);
+
+// //     const token = localStorage.getItem("token");
+// //     const [products, setProducts] = useState([]);
+// //     const [search, setSearch] = useState("");
+// //     const [categoryFilter, setCategoryFilter] = useState("");
+// //     const [sortOption, setSortOption] = useState("");
+// // const apiUrl = "http://localhost:3000/api";
+
+// //     useEffect(() => {
+// //         const fetchProductDetails = async () => {
+// //             try {
+// //                 const response = await fetch(`${apiUrl}/products/${productId}`, {
+// //                     method: "GET",
+// //                     headers: { Authorization: `Bearer ${token}` },
+// //                 });
+// //                 if (!response.ok) {
+// //                     throw new Error("Failed to fetch product details");
+// //                 }
+// //                 const data = await response.json();
+// //                 console.log("Fetched product details:", data); // Debugging log
+// //               setProduct(data);
+// //             } catch (error) {
+// //                 console.error("Error loading product details:", error);
+// //                 setError("Failed to load product details. Please try again later.");
+// //             }
+// //         };
+
+// //         fetchProductDetails();
+// //     }, [search, categoryFilter, sortOption, token]);
+
+// //     const handleAddToCart = () => {
+// //         alert(`Added ${product.name} to cart`);
+// //     };
+
+// //     const handleBuyNow = () => {
+// //         alert(`Order placed for ${product.name}. Cash on Delivery.`);
+// //     };
+// //     if (error) {
+// //         return <p className="text-red-500">{error}</p>;
+// //     }
+
+// //     if (!product) {
+// //         return <p>Loading product details...</p>;
+// //     }
+
+// //     return (
+// //         <div>
+// //             <div className="filters">
+// //                 <input
+// //                     type="text"
+// //                     placeholder="Search products..."
+// //                     value={search}
+// //                     onChange={(e) => setSearch(e.target.value)}
+// //                     className="border p-2 rounded"
+// //                 />
+// //                 <select
+// //                     value={categoryFilter}
+// //                     onChange={(e) => setCategoryFilter(e.target.value)}
+// //                     className="border p-2 rounded"
+// //                 >
+// //                     <option value="">All Categories</option>
+// //                     <option value="Fruits">Fruits</option>
+// //                     <option value="Vegetables">Vegetables</option>
+// //                 </select>
+// //                 <select
+// //                     value={sortOption}
+// //                     onChange={(e) => setSortOption(e.target.value)}
+// //                     className="border p-2 rounded"
+// //                 >
+// //                     <option value="">Sort By</option>
+// //                     <option value="price_asc">Price: Low to High</option>
+// //                     <option value="price_desc">Price: High to Low</option>
+// //                     <option value="rating_desc">Rating: High to Low</option>
+// //                 </select>
+// //             </div>
+
+// //             {error && <p className="text-red-500">{error}</p>}
+
+// //             <div className="product-grid">
+// //                 {products.map((product) => (
+// //                     <div key={product.id} className="product-card">
+// //                         <img
+// //                         src={product.image_url || "default-image.jpg"} // Use default image if image_url is missing
+// //                         alt={product.name}
+// //                         className="w-full h-40 object-cover rounded-md mb-4"
+// //                     />
+// //                         <h3>{product.name}</h3>
+// //                         <p>Price: ₹{product.price}</p>
+// //                         <p>Category: {product.category}</p>
+// //                     </div>
+// //                 ))}
+// //             </div>
+// //         </div>
+// //     );
+// // }
+
+// export default ProductDetails;
+
+// import { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
+
+// const apiUrl = "http://localhost:3000/api";
+
+// function ProductDetails() {
+//     const { productId } = useParams(); // Get the product ID from the URL
+//     const [product, setProduct] = useState(null);
+//     const [error, setError] = useState(null);
+
+//     const token = localStorage.getItem("token");
+
+//     useEffect(() => {
+//         const fetchProductDetails = async () => {
+//             try {
+//                 const response = await fetch(`${apiUrl}/products/${productId}`, {
+//                     method: "GET",
+//                     headers: { Authorization: `Bearer ${token}` },
+//                 });
+//                 if (!response.ok) {
+//                     throw new Error("Failed to fetch product details");
+//                 }
+//                 const data = await response.json();
+//                 console.log("Fetched product details:", data); // Debugging log
+//                 setProduct(data);
+//             } catch (error) {
+//                 console.error("Error loading product details:", error);
+//                 setError("Failed to load product details. Please try again later.");
+//             }
+//         };
+
+//         fetchProductDetails();
+//     }, [productId, token]);
+
+//     const handleAddToCart = () => {
+//         alert(`Added ${product.name} to cart`);
+//     };
+
+//     const handleBuyNow = () => {
+//         alert(`Order placed for ${product.name}. Cash on Delivery.`);
+//     };
+
+//     if (error) {
+//         return <p className="text-red-500">{error}</p>;
+//     }
+
+//     if (!product) {
+//         return <p>Loading product details...</p>;
+//     }
+
+//     return (
+//         <div className="min-h-screen bg-gray-100 p-5">
+//             <div className="bg-white p-6 rounded-lg shadow-lg">
+//                 <img
+//                     src={product.image_url || "default-image.jpg"} // Use default image if image_url is missing
+//                     alt={product.name}
+//                     className="w-full h-60 object-cover rounded-md mb-4"
+//                 />
+//                 <h2 className="text-2xl font-bold mb-2">{product.name}</h2>
+//                 <p className="text-gray-700 mb-2"><strong>Price:</strong> ₹{product.price}</p>
+//                 <p className="text-gray-700 mb-2"><strong>Category:</strong> {product.category}</p>
+//                 <p className="text-gray-700 mb-2"><strong>Description:</strong> {product.description || "No description available"}</p>
+//                 <div className="flex space-x-4 mt-4">
+//                     <button
+//                         className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition-colors duration-300"
+//                         onClick={handleAddToCart}
+//                     >
+//                         Add to Cart
+//                     </button>
+//                     <button
+//                         className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors duration-300"
+//                         onClick={handleBuyNow}
+//                     >
+//                         Buy Now
+//                     </button>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
+// export default ProductDetails;
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 
 const apiUrl = "http://localhost:3000/api";
 
@@ -11,7 +205,10 @@ function ProductDetails() {
     const [error, setError] = useState(null);
 
     const token = localStorage.getItem("token");
+<<<<<<< HEAD
     const userId = localStorage.getItem("userId");
+=======
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 
     useEffect(() => {
         const fetchProductDetails = async () => {
@@ -26,11 +223,14 @@ function ProductDetails() {
                 const data = await response.json();
                 console.log("Fetched product details:", data); // Debugging log
                 setProduct(data);
+<<<<<<< HEAD
 
                 // Record user-product interaction on product view
                 if (userId) {
                     await incrementInteraction(userId, productId);
                 }
+=======
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
             } catch (error) {
                 console.error("Error loading product details:", error);
                 setError("Failed to load product details. Please try again later.");
@@ -38,6 +238,7 @@ function ProductDetails() {
         };
 
         fetchProductDetails();
+<<<<<<< HEAD
     }, [productId, token, userId]);
 
     const handleAddToCart = async () => {
@@ -93,6 +294,18 @@ const handleBuyNow = async () => {
         }
     };
     
+=======
+    }, [productId, token]);
+
+    const handleAddToCart = () => {
+        alert(`Added ${product.name} to cart`);
+    };
+
+    const handleBuyNow = () => {
+        alert(`Order placed for ${product.name}. Cash on Delivery.`);
+    };
+
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     if (error) {
         return <p className="text-red-500">{error}</p>;
     }

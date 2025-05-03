@@ -79,7 +79,10 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import "./Login.css";
+=======
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 
 const apiUrl = "http://127.0.0.1:3000/api"; // Adjust based on your backend setup
 
@@ -134,7 +137,11 @@ function Login() {
     };
 
     return (
+<<<<<<< HEAD
         <div className="login-container flex items-center justify-center min-h-screen bg-gradient-to-b from-green-500 to-blue-600">
+=======
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-green-500 to-blue-600">
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
             <div className="bg-white p-8 rounded-xl shadow-lg w-96">
                 <h1 className="text-3xl font-bold text-green-700 text-center">Login</h1>
 

@@ -58,6 +58,7 @@ import farmerRoutes from "./routes/farmerRoutes.js";
 import productRoutes from "./routes/products.js";
 import consumerRoutes from "./routes/consumerRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+<<<<<<< HEAD
 import orderRoutes from "./routes/orderRoutes.js";
 import db from "./config/db.js"
 import recommendationRoutes from "./routes/recommendationRoutes.js";
@@ -66,6 +67,11 @@ import cartRoutes from './routes/cartRoutes.js';
 import feedbackRoutes from "./routes/feedbackRoutes.js";
 
 // … other middleware and routes
+=======
+import db from "./config/db.js"
+import recommendationRoutes from "./routes/recommendationRoutes.js";
+
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 
 // Load environment variables
 dotenv.config({ path: "./backend/.env" });
@@ -86,10 +92,14 @@ app.use("/api/consumer", consumerRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/recommendations", recommendationRoutes);
+<<<<<<< HEAD
 app.use("/api/orders", orderRoutes);
 app.use('/api/cart', cartRoutes);
 
 app.use("/api/feedback", feedbackRoutes);
+=======
+
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 // Test database connection
 app.get("/test-db", (req, res) => {
     db.query("SELECT 1 + 1 AS solution", (err, results) => {

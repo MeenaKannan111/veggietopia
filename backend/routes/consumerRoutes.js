@@ -1,4 +1,22 @@
+<<<<<<< HEAD
 import express from 'express';
+=======
+// backend/routes/consumerRoutes.js
+//const express = require('express');
+// import express from 'express';
+
+// const router = express.Router();
+// import * as consumerController from '../controllers/consumerController.js';
+
+// router.post('/register', consumerController.register);
+// router.post('/login', consumerController.login);
+// router.get('/dashboard/:id', consumerController.getDashboard);
+// router.post('/order', consumerController.placeOrder);
+
+// export default router;
+
+import express from "express";
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 import {
     getProducts,
     getRecommendations,
@@ -7,16 +25,23 @@ import {
     register,
     login,
     getDashboard,
+<<<<<<< HEAD
     getProductById,
     getOrdersByConsumerId
 } from '../controllers/consumerController.js';
 import { verifyToken } from '../middleware/auth.js';
 import { getCart, addToCart, removeFromCart } from '../controllers/cartController.js';
 //import authenticate from '../middleware/authenticate.js';
+=======
+    getProductById, 
+} from "../controllers/consumerController.js";
+import { verifyToken } from "../middleware/auth.js";
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 
 const router = express.Router();
 
 // Public routes
+<<<<<<< HEAD
 router.post('/register', register); // Consumer registration
 router.post('/login', login); // Consumer login
 
@@ -43,3 +68,18 @@ router.get('/orders', verifyToken, (req, res) => {
 });
 
 export default router;
+=======
+router.post("/register", register); // Consumer registration
+router.post("/login", login); // Consumer login
+
+// Protected routes
+router.get("/dashboard/:id", verifyToken, getDashboard); // Consumer dashboard
+router.get("/products", verifyToken, getProducts); // Get all products with filters
+router.get("/recommendations/:consumerId", verifyToken, getRecommendations); // Get personalized recommendations
+router.post("/orders", verifyToken, placeOrder); // Place an order
+router.get("/orders/:orderId/status", verifyToken, getOrderStatus); // Get order status
+router.get("/products/:productId", verifyToken, getProductById); // Get product details by ID
+
+
+export default router;
+>>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
