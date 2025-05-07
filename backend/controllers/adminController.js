@@ -1,6 +1,6 @@
 // backend/controllers/adminController.js
 import db from '../config/db.js';
-<<<<<<< HEAD
+
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -36,17 +36,7 @@ export const getDashboard = (req, res) => {
         });
       });
   };
-=======
 
-export const getDashboard = (req, res) => {
-    const sql = 'SELECT * FROM farmers';
-    db.query(sql, (err, results) => {
-        if (err) return res.status(500).send(err);
-        res.status(200).send(results);
-    });
-};
-
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 export const removeFarmer = (req, res) => {
     const sql = 'DELETE FROM farmers WHERE id = ?';
     db.query(sql, [req.params.id], (err, result) => {
@@ -61,7 +51,7 @@ export const removeConsumer = (req, res) => {
         if (err) return res.status(500).send(err);
         res.status(200).send({ message: 'Consumer removed successfully!' });
     });
-<<<<<<< HEAD
+
 };
 
 export const login = (req, res) => {
@@ -83,6 +73,3 @@ export const login = (req, res) => {
           ); res.status(200).json({ token, user: { id: admin.id, name: admin.name, email: admin.email } });
     });
 };
-=======
-};
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5

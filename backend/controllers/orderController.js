@@ -1,3 +1,4 @@
+
 import db from '../config/db.js';
 import { sendEmail } from '../utils/mailer.js';
 
@@ -147,7 +148,9 @@ export const getOrdersByFarmerId = async (req, res) => {
     }
 };
 
+
 export const updateOrderStatus = async (req, res) => {
+    console.log('updateOrderStatus called with params:', req.params, 'body:', req.body);
     const { orderId } = req.params;
     const { status } = req.body;
 
@@ -157,6 +160,21 @@ export const updateOrderStatus = async (req, res) => {
     }
 
     try {
+        // Get consumer email for the order
+        const [orderRows] = await db.promise().query(
+            `SELECT consumers.email FROM orders
+             JOIN consumers ON orders.consumer_id = consumers.id
+             WHERE orders.id = ?`,
+            [orderId]
+        );
+
+        if (orderRows.length === 0) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        const consumerEmail = orderRows[0].email;
+
+        // Update order status
         const sql = `
             UPDATE orders
             SET status = ?
@@ -169,22 +187,24 @@ export const updateOrderStatus = async (req, res) => {
             return res.status(404).json({ error: "Order not found" });
         }
 
-        res.status(200).json({ message: "Order status updated successfully" });
+        // Send notification email to consumer
+        try {
+            await sendEmail({
+                to: consumerEmail,
+                subject: 'Order Status Update',
+                html: `<p>Your order <strong>#${orderId}</strong> status is now: ${status}</p>`,
+                text: `Your order #${orderId} status is now: ${status}`,
+            });
+        } catch (emailError) {
+            console.error('Failed to send notification email:', emailError);
+            // Continue without failing the request
+        }
+        console.error('sent');
+        res.status(200).json({ message: "Order status updated and notification sent successfully" });
     } catch (error) {
         console.error("Error updating order status:", error);
         res.status(500).json({ error: "Failed to update order status" });
     }
-    try {
-        await sendEmail({
-          to: consumerEmail,
-          subject: 'Order Status Update',
-          html: `<p>Your order <strong>#${orderId}</strong> status is now: ${status}</p>`,
-          text: `Your order #${orderId} status is now: ${status}`,
-        });
-        res.status(200).json({ message: 'Order updated and notification sent.' });
-      } catch (error) {
-        res.status(500).json({ error: 'Order updated but failed to send notification email.' });
-      }
 };
 
 // export const updateOrderStatus = (req, res) => {
@@ -204,46 +224,111 @@ export const updateOrderStatus = async (req, res) => {
 //     .catch(err => console.error('Error sending notification email:', err));
   
 //     res.status(200).json({ message: 'Order status updated and consumer notified' });
-//   };
-export const updateOrderStatusByFarmer = async (req, res) => {
+//   };export const updateOrderStatusByFarmer = async (req, res) => {
+    export const updateOrderStatusByFarmer = async (req, res) => {
+  
+    console.log('updateOrderStatus called with params:', req.params, 'body:', req.body);
+    
     const { orderId } = req.params;
-    const { status } = req.body;
+    const { status: newStatus } = req.body;
     const farmerId = req.user.id;
-
+    
     const validStatuses = ['Pending', 'Confirmed', 'Out for Delivery', 'Cancelled', 'Delivered'];
-    if (!validStatuses.includes(status)) {
+    if (!validStatuses.includes(newStatus)) {
         return res.status(400).json({ error: "Invalid status value" });
     }
-
+    
+    // Define allowed state transitions
+    const allowedTransitions = {
+        Pending: ['Confirmed', 'Cancelled'],
+        Confirmed: ['Out for Delivery', 'Cancelled'],
+        'Out for Delivery': ['Delivered'],
+        Delivered: [],        // no further transitions allowed
+        Cancelled: []         // no further transitions allowed
+    };
+    
     try {
-        // Check if the order exists and belongs to a product of this farmer
+        // Fetch the order's current status and the consumer's email; ensuring the order belongs to a product by this farmer
         const [orderRows] = await db.promise().query(
-            `SELECT orders.id FROM orders
+            `SELECT orders.id, orders.status AS currentStatus, consumers.email 
+             FROM orders
              JOIN products ON orders.product_id = products.id
+             JOIN consumers ON orders.consumer_id = consumers.id
              WHERE orders.id = ? AND products.farmer_id = ?`,
             [orderId, farmerId]
         );
-
+        
         if (orderRows.length === 0) {
             return res.status(403).json({ error: "Unauthorized to update this order or order not found" });
         }
-
-        // Update the order status
+        
+        const { currentStatus, email: consumerEmail } = orderRows[0];
+        
+        // Validate the transition
+        if (!allowedTransitions[currentStatus].includes(newStatus)) {
+            console.error(`Invalid status transition from "${currentStatus}" to "${newStatus}". Allowed transitions: ${allowedTransitions[currentStatus].join(', ') || 'None'}.`);
+            return res.status(400).json({
+                error: `Invalid status transition from "${currentStatus}" to "${newStatus}". Allowed transitions: ${allowedTransitions[currentStatus].join(', ') || 'None'}.`
+            });
+        }
+        
+        // Update the order status in the database
         const updateSql = `
             UPDATE orders
             SET status = ?
             WHERE id = ?
         `;
-
-        const [result] = await db.promise().query(updateSql, [status, orderId]);
-
+        const [result] = await db.promise().query(updateSql, [newStatus, orderId]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: "Order not found" });
         }
-
-        res.status(200).json({ message: "Order status updated successfully" });
+        
+        // Prepare dynamic email messages based on the new status
+        let subject = 'Order Status Update';
+        let htmlMessage = '';
+        let textMessage = '';
+        
+        if (newStatus === 'Confirmed') {
+            htmlMessage = `<p>Your order <strong>#${orderId}</strong> has been confirmed. We are preparing your package and it will be out for delivery shortly. Stay tuned for more updates!</p>`;
+            textMessage = `Your order #${orderId} has been confirmed. We are preparing your package and it will be out for delivery shortly. Stay tuned for more updates!`;
+        } else if (newStatus === 'Out for Delivery') {
+            // Fetch the farmer's address (farm_location) to include in the email for COD orders
+            const [farmerRows] = await db.promise().query(
+                "SELECT farm_location FROM farmers WHERE id = ?",
+                [farmerId]
+            );
+            const farmerAddress = farmerRows.length > 0 ? farmerRows[0].farm_location : 'your designated pickup location';
+            htmlMessage = `<p>Great news! Your order <strong>#${orderId}</strong> is out for delivery. Since this is COD, please be ready to pick it up at the following address: <strong>${farmerAddress}</strong>.</p>`;
+            textMessage = `Great news! Your order #${orderId} is out for delivery. Since this is COD, please be ready to pick it up at: ${farmerAddress}.`;
+        } else if (newStatus === 'Cancelled') {
+            htmlMessage = `<p>We regret to inform you that your order <strong>#${orderId}</strong> has been cancelled. If you have any questions, please contact our support team for further assistance.</p>`;
+            textMessage = `We regret to inform you that your order #${orderId} has been cancelled. If you have any questions, please contact our support team for further assistance.`;
+        } else if (newStatus === 'Delivered') {
+            htmlMessage = `<p>Your order <strong>#${orderId}</strong> has been delivered successfully. Thank you for shopping with us, and we hope you enjoy your purchase!</p>`;
+            textMessage = `Your order #${orderId} has been delivered successfully. Thank you for shopping with us, and we hope you enjoy your purchase!`;
+        } else if (newStatus === 'Pending') {
+            // Although transitioning back to Pending shouldn't be allowed per our mapping, this branch is added for completeness.
+            htmlMessage = `<p>Your order <strong>#${orderId}</strong> is currently pending. We are processing your order and will update you once the status changes.</p>`;
+            textMessage = `Your order #${orderId} is currently pending. We are processing your order and will update you once the status changes.`;
+        }
+        
+        // Attempt to send the notification email
+        try {
+            await sendEmail({
+                to: consumerEmail,
+                subject,
+                html: htmlMessage,
+                text: textMessage
+            });
+        } catch (emailError) {
+            console.error('Failed to send notification email:', emailError);
+            // Continue processing without failing the whole request if email sending fails
+        }
+        
+        console.error('sent');
+        res.status(200).json({ message: "Order status updated and notification sent successfully" });
     } catch (error) {
-        console.error("Error updating order status by farmer:", error);
+        console.error("Error updating order status:", error);
         res.status(500).json({ error: "Failed to update order status" });
     }
 };

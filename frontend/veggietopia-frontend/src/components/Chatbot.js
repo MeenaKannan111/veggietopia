@@ -1,95 +1,5 @@
 
 
-// import React, { useState, useEffect, useRef } from "react";
-// import axios from "axios";
-
-// const Chatbot = () => {
-//     const [messages, setMessages] = useState([]);
-//     const [input, setInput] = useState("");
-//     const chatBoxRef = useRef(null);
-
-//     useEffect(() => {
-//         // Auto-scroll to the latest message
-//         if (chatBoxRef.current) {
-//             chatBoxRef.current.scrollTop = chatBoxRef.current.scrollHeight;
-//         }
-//     }, [messages]);
-
-//     const sendMessage = async () => {
-//         if (!input.trim()) return;
-
-//         const userMessage = { sender: "user", text: input };
-//         setMessages((prevMessages) => [...prevMessages, userMessage]); // Functional update
-
-//         try {
-//             const response = await axios.post("http://localhost:3000/api/chatbot", { input });
-//             const botMessage = { sender: "bot", text: response.data.response };
-
-//             setMessages((prevMessages) => [...prevMessages, botMessage]);
-//         } catch (error) {
-//             setMessages((prevMessages) => [
-//                 ...prevMessages,
-//                 { sender: "bot", text: "Error connecting to chatbot. Please try again." }
-//             ]);
-//         }
-
-//         setInput("");
-//     };
-
-//     return (
-//         <div style={styles.container}>
-//             <div style={styles.chatBox} ref={chatBoxRef}>
-//                 {messages.map((msg, index) => (
-//                     <div key={index} style={msg.sender === "user" ? styles.userMessage : styles.botMessage}>
-//                         {msg.text}
-//                     </div>
-//                 ))}
-//             </div>
-//             <div style={styles.inputContainer}>
-//                 <input
-//                     type="text"
-//                     value={input}
-//                     onChange={(e) => setInput(e.target.value)}
-//                     placeholder="Ask me anything..."
-//                     style={styles.input}
-//                 />
-//                 <button onClick={sendMessage} style={styles.button}>Send</button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// // Styles
-// const styles = {
-//     container: { 
-//         width: "350px", margin: "20px auto", padding: "10px", 
-//         border: "1px solid #ccc", borderRadius: "10px", backgroundColor: "#f9f9f9" 
-//     },
-//     chatBox: { 
-//         height: "300px", overflowY: "auto", padding: "10px", 
-//         borderBottom: "1px solid #ccc", backgroundColor: "#fff"
-//     },
-//     userMessage: { 
-//         textAlign: "right", background: "#d1e7dd", padding: "8px", 
-//         borderRadius: "10px", marginBottom: "5px", maxWidth: "80%", marginLeft: "auto"
-//     },
-//     botMessage: { 
-//         textAlign: "left", background: "#f8d7da", padding: "8px", 
-//         borderRadius: "10px", marginBottom: "5px", maxWidth: "80%"
-//     },
-//     inputContainer: { 
-//         display: "flex", alignItems: "center", paddingTop: "10px" 
-//     },
-//     input: { 
-//         flex: 1, padding: "8px", borderRadius: "5px", border: "1px solid #ccc", marginRight: "5px" 
-//     },
-//     button: { 
-//         padding: "8px 10px", borderRadius: "5px", border: "none", 
-//         background: "#28a745", color: "white", cursor: "pointer"
-//     },
-// };
-
-// export default Chatbot;
 
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -228,10 +138,8 @@ const styles = {
         borderRadius: "5px",
         border: "1px solid #ccc",
         marginRight: "5px",
-<<<<<<< HEAD
-        color: "black",
-=======
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+        backgroundColor: "#fff", // optional but explicit
+        color: "#000",
     },
     button: {
         padding: "10px 15px",

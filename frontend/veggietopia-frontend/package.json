@@ -7,7 +7,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^13.5.0",
-<<<<<<< HEAD
+
     "axios": "^1.8.4",
     "framer-motion": "^6.0.0",
     "i18next": "^25.0.2",
@@ -20,18 +20,7 @@
     "web-vitals": "^2.1.4"
   },
   "proxy": "http://localhost:3000",
-=======
-    "tailwindcss": "^4.1.4",
-    "axios": "^1.8.4",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^7.4.1",
-    "framer-motion": "^6.0.0",
-    "react-scripts": "^5.0.1",
-    "web-vitals": "^2.1.4",
-    "proxy": "http://localhost:5000"
-  },
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+
   "scripts": {
     "start": "set NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",
     "build": "react-scripts build",
@@ -55,12 +44,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-<<<<<<< HEAD
+
   },
   "devDependencies": {
   "autoprefixer": "^10.4.21",
   "tailwindcss": "^3.4.17"
-=======
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
   }
 }

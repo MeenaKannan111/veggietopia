@@ -30,7 +30,7 @@ function AdminDashboardOverview() {
           <p><strong>Email:</strong> {admin.email}</p>
         </div>
       ) : (
-        <p>Loading admin profile...</p>
+        <p>Welcome Back T0 Mange VeggieTopia</p>
       )}
     </div>
   );

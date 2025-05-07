@@ -1,7 +1,7 @@
-<<<<<<< HEAD
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Chatbot from "../components/Chatbot";
+import Chatbot from "../components/chatbot";
 import "./AdminDashboard.css";
 
 const apiUrl = "http://localhost:3000/api";
@@ -70,7 +70,6 @@ function AdminDashboard() {
       setConsumers(consumers.filter((c) => c.id !== consumerId));
     } catch (error) {
       console.error("Error removing consumer:", error);
-=======
 // import { useState, useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 // import Chatbot from "../components/Chatbot";
@@ -247,96 +246,18 @@ function AdminDashboard() {
 
 // export default AdminDashboard;
 
-
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Chatbot from "../components/Chatbot";
-import axios from "axios";
-
-const apiUrl = "http://localhost:3000/api";
-const farmerApiUrl = "http://localhost:5000/api";
-
-function FarmerDashboard() {
-  const [farmer, setFarmer] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [orders, setOrders] = useState([]);
-  const [newProduct, setNewProduct] = useState({ name: "", price: "", quantity: "" });
-  const token = localStorage.getItem("token");
-  const userId = localStorage.getItem("userId");
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!token || !userId) {
-      alert("Not logged in! Redirecting...");
-      navigate("/");
-      return;
-    }
-
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/farmer/dashboard/${userId}`, {
-          method: "GET",
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        if (!response.ok) throw new Error("Profile fetch failed");
-        const data = await response.json();
-        setFarmer(data);
-      } catch (error) {
-        console.error("Error loading profile:", error);
-      }
-    };
-
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`${farmerApiUrl}/products`);
-        setProducts(response.data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    const fetchOrders = async () => {
-      try {
-        const response = await axios.get(`${farmerApiUrl}/orders`);
-        setOrders(response.data);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
-
-    fetchProfile();
-    fetchProducts();
-    fetchOrders();
-  }, [navigate, token, userId]);
-
-  const handleAddProduct = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post(`${farmerApiUrl}/products`, newProduct);
-      alert("Product added successfully!");
-      setProducts([...products, response.data]);
-      setNewProduct({ name: "", price: "", quantity: "" });
-    } catch (error) {
-      console.error("Error adding product:", error);
-      alert("Failed to add product.");
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     }
   };
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-<<<<<<< HEAD
-=======
-    localStorage.removeItem("userId");
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+
     navigate("/login");
   };
 
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-<<<<<<< HEAD
       <div className="w-64 bg-gradient-to-b from-blue-700 to-green-700 text-white flex flex-col p-5 space-y-3">
         <h2 className="text-3xl font-bold mb-6">Admin Panel</h2>
         <nav className="flex flex-col space-y-3">
@@ -382,22 +303,13 @@ function FarmerDashboard() {
           >
             Logout
           </button>
-=======
-      <div className="w-64 bg-green-700 text-white flex flex-col p-5">
-        <h2 className="text-3xl font-bold">Farmer</h2>
-        <nav className="mt-5 space-y-4">
-          <button onClick={() => navigate("/farmer-profile")} className="block w-full text-left">Profile</button>
-          <button onClick={() => navigate("/farmer-orders")} className="block w-full text-left">Orders</button>
-          <button onClick={() => navigate("/farmer-add-product")} className="block w-full text-left">Add Product</button>
-          <button onClick={() => navigate("/farmer-chatbot")} className="block w-full text-left">Chatbot</button>
-          <button onClick={handleLogout} className="block w-full text-left">Logout</button>
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+
         </nav>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 p-5 overflow-y-auto">
-<<<<<<< HEAD
+
         <h1 className="text-3xl font-bold text-blue-900">Admin Dashboard</h1>
 
         {/* Profile Section */}
@@ -407,24 +319,11 @@ function FarmerDashboard() {
             <div>
               <p><strong>Name:</strong> {admin.name}</p>
               <p><strong>Email:</strong> {admin.email}</p>
-=======
-        {/* Header */}
-        <h1 className="text-3xl font-bold text-green-900">Farmer Dashboard</h1>
 
-        {/* Profile Section */}
-        <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold">My Profile</h2>
-          {farmer ? (
-            <div>
-              <p><strong>Name:</strong> {farmer.name}</p>
-              <p><strong>Email:</strong> {farmer.email}</p>
-              <p><strong>Farm Name:</strong> {farmer.farm_name}</p>
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
             </div>
           ) : <p>Loading profile...</p>}
         </section>
 
-<<<<<<< HEAD
         {/* Farmers Management */}
         <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
           <h2 className="text-xl font-bold">Manage Farmers</h2>
@@ -471,77 +370,18 @@ function FarmerDashboard() {
         <section className="mt-5">
           <h2 className="text-xl font-bold">Manage Products</h2>
           <div className="mt-3 grid grid-cols-3 gap-4">
-=======
-        {/* Add Product Section */}
-        <section className="mt-5 bg-white p-5 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold">Add Product</h2>
-          <form onSubmit={handleAddProduct} className="mt-3">
-            <input
-              type="text"
-              placeholder="Product Name"
-              value={newProduct.name}
-              onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-              className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-              required
-            />
-            <input
-              type="number"
-              placeholder="Price"
-              value={newProduct.price}
-              onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-              className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-              required
-            />
-            <input
-              type="number"
-              placeholder="Quantity"
-              value={newProduct.quantity}
-              onChange={(e) => setNewProduct({ ...newProduct, quantity: e.target.value })}
-              className="p-2 border border-gray-300 rounded-lg w-full mb-2"
-              required
-            />
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-lg">Add Product</button>
-          </form>
-        </section>
 
-        {/* Products Section */}
-        <section className="mt-5">
-          <h2 className="text-xl font-bold">My Products</h2>
-          <div className="grid grid-cols-3 gap-4 mt-3">
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
             {products.length > 0 ? (
               products.map((product) => (
                 <div key={product.id} className="bg-white p-5 rounded-lg shadow-md">
                   <h3 className="text-lg font-bold">{product.name}</h3>
-<<<<<<< HEAD
+
                   <p>Price: ${product.price}</p>
                   <p>Farmer: {product.farmer_name}</p>
                 </div>
               ))
             ) : <p>No products available.</p>}
-=======
-                  <p className="text-gray-600">${product.price}</p>
-                  <p className="text-gray-600">Qty: {product.quantity}</p>
-                </div>
-              ))
-            ) : <p>No products added yet.</p>}
-          </div>
-        </section>
 
-        {/* Orders Section */}
-        <section className="mt-5">
-          <h2 className="text-xl font-bold">Recent Orders</h2>
-          <div className="mt-3">
-            {orders.length > 0 ? (
-              orders.map((order) => (
-                <div key={order.id} className="bg-white p-5 rounded-lg shadow-md mb-2">
-                  <p><strong>Product:</strong> {order.productName}</p>
-                  <p><strong>Consumer:</strong> {order.consumerName}</p>
-                  <p><strong>Status:</strong> {order.status}</p>
-                </div>
-              ))
-            ) : <p>No orders yet.</p>}
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
           </div>
         </section>
 
@@ -552,8 +392,5 @@ function FarmerDashboard() {
   );
 }
 
-<<<<<<< HEAD
+
 export default AdminDashboard;
-=======
-export default FarmerDashboard;
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5

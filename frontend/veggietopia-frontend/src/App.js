@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // import React from "react";
 //  import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 //  import Login from "./pages/Login";
@@ -55,8 +55,6 @@
  
 //  export default App;
 
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-=======
 // import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 // import Login from "./pages/Login";
 // import Signup from "./pages/Signup";
@@ -99,15 +97,13 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // export default App;
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
-import Login from "./pages/Login";
+import { BrowserRouter , Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
 import Home from "./pages/Home";
 import ConsumerDashboard from "./pages/ConsumerDashboard";
 import FarmerDashboard from "./pages/FarmerDashboard";
-<<<<<<< HEAD
 import AdminDashboardLayout from "./pages/AdminDashboardLayout";
 import AdminDashboardOverview from "./pages/AdminDashboardOverview";
 import AdminFarmers from "./pages/AdminFarmers";
@@ -151,37 +147,6 @@ function App() {
       </Routes>
     </BrowserRouter>
   );
-=======
-import AdminDashboard from "./pages/AdminDashboard";
-import Header from "./components/Header";
-import "./App.css";
-
-function App() {
-    return (
-        <Router>
-            <div className="app-container">
-            <Header />
-                <nav className="navbar bg-green-600 text-white p-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-bold">Veggietopia</h1>
-                    <div className="space-x-4">
-                        <Link to="/" className="hover:underline">Home</Link>
-                        <Link to="/login" className="hover:underline">Login</Link>
-                        <Link to="/signup" className="hover:underline">Sign Up</Link>
-                    </div>
-                </nav>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/consumer-dashboard" element={<ConsumerDashboard />} />
-                    <Route path="/product/:productId" element={<ProductDetails />} />
-                    <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
-                    <Route path="/admin-dashboard" element={<AdminDashboard />} />
-                </Routes>
-            </div>
-        </Router>
-    );
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 }
 
 export default App;

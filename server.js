@@ -1,27 +1,22 @@
-<<<<<<< HEAD
+
 import express from 'express';
 import mysql from 'mysql2';
+import session from "express-session";
 import bodyParser from 'body-parser';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
+import authRoutes from "./routes/auth.js";
 
 import recommendationRoutes from './backend/routes/recommendationRoutes.js';
 import consumerRoutes from './backend/routes/consumerRoutes.js';
-=======
-const express = require('express');
-const mysql = require('mysql2');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const cors = require('cors');
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-<<<<<<< HEAD
+
 // Global request logger middleware
 app.use((req, res, next) => {
     console.log(`Incoming request: ${req.method} ${req.url}`);
@@ -30,8 +25,7 @@ app.use((req, res, next) => {
 
 app.use('/api', consumerRoutes);  // Register consumer routes
 
-=======
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+app.use("/", authRoutes);
 // Create a connection to the database
 const db = mysql.createConnection({
     host: 'localhost',
@@ -57,11 +51,9 @@ app.post('/api/register', (req, res) => {
         if (err) {
             return res.status(500).send('Error registering user');
         }
-<<<<<<< HEAD
+
         res.status(201).send('User registered');
-=======
-        res.status(201).send('User  registered');
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+
     });
 });
 
@@ -117,12 +109,10 @@ app.post('/api/products', (req, res) => {
 
 // Middleware to authenticate user
 const authenticateJWT = (req, res, next) => {
-<<<<<<< HEAD
+
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
-=======
-    const token = req.headers['authorization'];
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+
     if (token) {
         jwt.verify(token, 'your_jwt_secret', (err, user) => {
             if (err) {
@@ -137,31 +127,15 @@ const authenticateJWT = (req, res, next) => {
     }
 };
 
-<<<<<<< HEAD
+
 
 // Use recommendation routes
 app.use('/recommendations', recommendationRoutes);
-=======
-// Protect routes with authentication
-app.use(authenticateJWT);
-
-// Get user orders
-app.get('/api/orders', (req, res) => {
-    db.query('SELECT * FROM orders WHERE user_id = ?', [req.userId], (err, results) => {
-        if (err) {
-            return res.status(500).send('Error fetching orders');
-        }
-        res.json(results);
-    });
-});
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
 
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
-<<<<<<< HEAD
+
 });
-=======
-});
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+

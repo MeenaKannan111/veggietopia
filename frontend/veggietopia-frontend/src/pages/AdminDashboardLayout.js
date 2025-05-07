@@ -46,12 +46,6 @@ function AdminDashboardLayout() {
             Manage Products
           </button>
           <button 
-            onClick={() => navigate("/admin/chatbot")} 
-            className="block w-full text-left px-4 py-2 rounded hover:bg-gray-300"
-          >
-            Chatbot
-          </button>
-          <button 
             onClick={() => navigate("/admin/feedback")} 
             className="block w-full text-left px-4 py-2 rounded hover:bg-gray-300"
           >

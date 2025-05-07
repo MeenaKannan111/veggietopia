@@ -11,35 +11,29 @@
   "license": "ISC",
   "dependencies": {
     "@google/genai": "^0.7.0",
-<<<<<<< HEAD
     "@google/generative-ai": "^0.24.1",
-=======
-    "@google/generative-ai": "^0.24.0",
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     "axios": "^1.8.4",
+    "bcrypt": "^5.1.1",
     "body-parser": "^2.2.0",
     "botbuilder": "^4.23.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
+    "express-session": "^1.18.1",
     "framer-motion": "^12.7.4",
-<<<<<<< HEAD
     "i18next": "^25.0.2",
+    "mongoose": "^8.14.1",
     "mysql2": "^3.14.0",
     "nodemailer": "^6.10.1",
     "openai": "^4.90.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
     "react-i18next": "^15.5.1",
     "react-router-dom": "^7.5.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.5",
-=======
-    "mysql2": "^3.14.0",
-    "openai": "^4.90.0",
-    "react-router-dom": "^7.5.0"
-  },
-  "devDependencies": {
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
     "autoprefixer": "^10.4.21",
     "nodemon": "^3.1.9",
     "postcss": "^8.5.3",

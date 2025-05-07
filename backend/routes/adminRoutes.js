@@ -8,12 +8,10 @@ router.get('/dashboard', adminController.getDashboard);
 router.delete('/remove-farmer/:id', adminController.removeFarmer);
 router.delete('/remove-consumer/:id', adminController.removeConsumer);
 
-<<<<<<< HEAD
+
 router.post('/login', adminController.login);
 
 // Additional routes can be added here if needed for managing orders, products, etc.
 
 export default router;
-=======
-export default router;
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+

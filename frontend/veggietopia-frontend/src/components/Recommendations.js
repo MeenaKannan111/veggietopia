@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 // import React, { useEffect, useState } from "react";
 //     import fetchRecommendations from "../utils/fetchRecommendation";
     
@@ -60,28 +60,7 @@
 //     export default Recommendations;
     
 
-import React, { useState, useEffect } from 'react';
 
-function Recommendations() {
-  const [recommendations, setRecommendations] = useState([]);
-
-  useEffect(() => {
-    // Fetch your recommendations data
-    fetch('/api/recommendations')
-      .then(response => response.json())
-      .then(data => setRecommendations(data))
-      .catch(error => console.error(error));
-  }, []);
-
-  return (
-    <div>
-      {recommendations.map(item => (
-        <div key={item.id}>{item.title}</div>
-      ))}
-    </div>
-  );
-}
-=======
 import React, { useEffect, useState } from "react";
 import fetchRecommendations from "../utils/fetchRecommendation";
 
@@ -123,6 +102,6 @@ const Recommendations = ({ userId }) => {
         </div>
     );
 };
->>>>>>> 0c2c563e9c323979057143631318859bc55e43c5
+
 
 export default Recommendations;
